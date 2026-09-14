@@ -1,3 +1,14 @@
+/* ── Dana (Fontiran) — self-hosted, so the page does not depend on
+   fonts.googleapis.com, which is unreliable from inside Iran.
+   Proprietary: a Fontiran web licence is required. See public/fonts/FontLicense.txt ── */
+
+@font-face { font-family: Dana; src: url("/fonts/Dana-Light.woff2") format("woff2");     font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: Dana; src: url("/fonts/Dana-Regular.woff2") format("woff2");   font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: Dana; src: url("/fonts/Dana-Medium.woff2") format("woff2");    font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: Dana; src: url("/fonts/Dana-DemiBold.woff2") format("woff2");  font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: Dana; src: url("/fonts/Dana-Bold.woff2") format("woff2");      font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: Dana; src: url("/fonts/Dana-ExtraBold.woff2") format("woff2"); font-weight: 800; font-style: normal; font-display: swap; }
+
 /* ── Dr. Sara Mousavi — practice site ───────────────────────────── */
 
 :root {
@@ -40,7 +51,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 92px; }
 
 body {
   margin: 0;
-  font-family: Vazirmatn, "Segoe UI", Tahoma, sans-serif;
+  font-family: Dana, Vazirmatn, "Segoe UI", Tahoma, sans-serif;
   font-weight: 400;
   font-size: 17px;
   line-height: 2;
@@ -261,7 +272,7 @@ img { max-width: 100%; height: auto; display: block; }
 .tri-node circle { fill: #e0838c; }
 .tri-node text {
   fill: #fff; font-size: 18px; font-weight: 700; text-anchor: middle;
-  font-family: Vazirmatn, Tahoma, sans-serif;
+  font-family: Dana, Vazirmatn, Tahoma, sans-serif;
 }
 .tri-node-key circle { fill: var(--accent); }
 .tri-node-key text { font-size: 21px; }
@@ -269,7 +280,7 @@ img { max-width: 100%; height: auto; display: block; }
 .tri-arrow { fill: none; stroke: rgba(255,255,255,.32); stroke-width: 1.5; }
 .tri-caption {
   fill: rgba(255,255,255,.4); font-size: 12px; text-anchor: middle;
-  font-family: Vazirmatn, Tahoma, sans-serif;
+  font-family: Dana, Vazirmatn, Tahoma, sans-serif;
 }
 
 .tri-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }

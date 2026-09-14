@@ -50,7 +50,11 @@ npm run preview
 
 ## نکات فنی
 
-- فونت: Vazirmatn از Google Fonts.
+- فونت: **Dana** (Fontiran)، به‌صورت self-host در `public/fonts/`. دلیل self-host:
+  دسترسی به `fonts.googleapis.com` از داخل ایران پایدار نیست.
+  ⚠️ Dana یک فونت **تجاری** است؛ برای استفاده در وب‌سایت باید لایسنس وب از
+  [fontiran.com](https://fontiran.com) خریداری و کد ۶ رقمی آن در
+  `public/fonts/FontLicense.txt` درج شود. تا آن زمان سایت از نظر لایسنس پوشش ندارد.
 - رنگ‌ها در `:root` فایل `src/styles/global.css` تعریف شده‌اند (`--accent` رنگ قرمز برند).
 - ساختار‌دادهٔ Schema.org از نوع `Psychologist` در `Base.astro`؛ آدرس و شمارهٔ تماس را آنجا هم اضافه کنید.
 - دسترس‌پذیری: skip link، فوکوس قابل‌مشاهده، و احترام به `prefers-reduced-motion`.
