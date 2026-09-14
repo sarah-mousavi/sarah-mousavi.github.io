@@ -1,19 +1,21 @@
 ---
 import { Image } from 'astro:assets';
 import portrait from '../assets/sara.jpg';
+import signature from '../assets/signature.png';
 import { site } from '../data/site';
 ---
 
 <section class="hero" id="hero">
   <div class="hero-glow" aria-hidden="true"></div>
+  <Image class="hero-sign" src={signature} alt="" widths={[640, 1280]} sizes="640px" aria-hidden="true" />
 
   <div class="wrap hero-inner">
     <div class="hero-copy">
       <p class="eyebrow">{site.clinic}</p>
-      <h1>با من خودتو بهتر می‌شناسی<br />و روابط سالمی تجربه می‌کنی.</h1>
+      <h1>با من خودتو بهتر می‌شناسی و روابط سالمی تجربه می‌کنی.</h1>
       <p class="lead">
-        دکتر سارا موسوی هستم؛ روان‌درمانگر کودک و بزرگسال با رویکرد <strong>ISTDP</strong>
-        (روان‌درمانی پویشی فشرده و کوتاه‌مدت). اینجا علم روان‌شناسی را به زبان زندگی یاد می‌گیری.
+        دکتر سارا موسوی هستم؛ روان‌درمانگر کودک و بزرگسال با رویکرد <strong>ISTDP</strong> —
+        روان‌درمانی پویشی فشرده و کوتاه‌مدت. اینجا علم روان‌شناسی را به زبان زندگی یاد می‌گیری.
       </p>
 
       <div class="hero-actions">

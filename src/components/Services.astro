@@ -11,8 +11,9 @@ import { services } from '../data/site';
 
     <div class="cards-4">
       {
-        services.map((s) => (
+        services.map((s, i) => (
           <article class="service reveal">
+            <span class="service-index" aria-hidden="true">{`۰${(i + 1).toLocaleString('fa-IR')}`}</span>
             <h3>{s.title}</h3>
             <p>{s.body}</p>
           </article>

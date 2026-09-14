@@ -13,16 +13,63 @@ import { triangle } from '../data/site';
       </p>
     </div>
 
-    <div class="cards-3">
-      {
-        triangle.map((item) => (
-          <article class="card reveal">
-            <span class="card-num">{item.num}</span>
-            <h3>{item.title}</h3>
-            <p>{item.body}</p>
-          </article>
-        ))
-      }
+    <div class="triangle-layout">
+      <!-- مثلث تعارض — the Triangle of Conflict, the core map of this method -->
+      <figure class="triangle reveal">
+        <svg viewBox="0 0 420 380" role="img" aria-labelledby="triTitle triDesc">
+          <title id="triTitle">مثلث تعارض</title>
+          <desc id="triDesc">
+            دفاع و اضطراب در دو رأس بالا، و احساس در رأس پایین مثلث قرار دارند.
+          </desc>
+
+          <path
+            d="M60 62 L360 62 L210 322 Z"
+            fill="none"
+            stroke="rgba(255,255,255,.22)"
+            stroke-width="1.5"
+          ></path>
+
+          <!-- the two upper vertices: what shows on the surface -->
+          <g class="tri-node">
+            <circle cx="60" cy="62" r="7"></circle>
+            <text x="60" y="36">دفاع</text>
+          </g>
+          <g class="tri-node">
+            <circle cx="360" cy="62" r="7"></circle>
+            <text x="360" y="36">اضطراب</text>
+          </g>
+
+          <!-- the lower vertex: what is actually underneath -->
+          <g class="tri-node tri-node-key">
+            <circle cx="210" cy="322" r="9"></circle>
+            <text x="210" y="360">احساس</text>
+          </g>
+
+          <!-- the direction of the work: down, toward the feeling -->
+          <path
+            class="tri-arrow"
+            d="M210 118 L210 268"
+            stroke-dasharray="5 9"
+            stroke-linecap="round"
+          ></path>
+          <path class="tri-arrow" d="M203 258 L210 272 L217 258"></path>
+          <text class="tri-caption" x="252" y="199">مسیرِ کار</text>
+        </svg>
+      </figure>
+
+      <ol class="tri-list">
+        {
+          triangle.map((item) => (
+            <li class="reveal">
+              <span class="tri-num">{item.num}</span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
     </div>
 
     <p class="note reveal">
