@@ -1,11 +1,41 @@
 ---
-import { site } from '../data/site';
+import { Image } from 'astro:assets';
+import signature from '../assets/signature.png';
+import { nav, site } from '../data/site';
+
 const year = new Date().getFullYear().toLocaleString('fa-IR', { useGrouping: false });
+const waHref = `https://wa.me/${site.phone.whatsapp}?text=${encodeURIComponent(site.whatsappText)}`;
 ---
 
 <footer class="site-footer">
-  <div class="wrap footer-inner">
-    <p>© {year} {site.name} — {site.role}</p>
-    <p class="footer-note">محتوای این سایت جنبهٔ آموزشی دارد و جایگزین جلسهٔ درمان نیست.</p>
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <Image src={signature} alt="" widths={[130, 260]} sizes="130px" aria-hidden="true" />
+        <p>{site.name} — {site.role} با رویکرد {site.approach}. {site.clinic}</p>
+      </div>
+
+      <nav class="footer-col" aria-label="بخش‌های سایت">
+        <h3>بخش‌های سایت</h3>
+        <ul>
+          {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </nav>
+
+      <div class="footer-col">
+        <h3>تماس</h3>
+        <ul>
+          <li><a href={waHref} target="_blank" rel="noopener">واتس‌اپ</a></li>
+          <li><a href={`tel:${site.phone.tel}`} dir="ltr">{site.phone.display}</a></li>
+          <li><a href={site.instagram} target="_blank" rel="noopener">اینستاگرام</a></li>
+          <li><a href="#contact">رزرو وقت</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-inner">
+      <p>© {year} {site.name}</p>
+      <p class="footer-note">محتوای این سایت جنبهٔ آموزشی دارد و جایگزین جلسهٔ درمان نیست.</p>
+    </div>
   </div>
 </footer>

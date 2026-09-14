@@ -1,0 +1,17 @@
+---
+import { Image } from 'astro:assets';
+import signature from '../assets/signature.png';
+---
+
+<!-- the one loud beat on the page: her own sentence, at display size -->
+<section class="quote-band">
+  <div class="wrap narrow">
+    <blockquote class="reveal">
+      <p>این سکوت، یک سکوت عادی نیست؛ یک <b>سلاح قدرتمند</b> است.</p>
+      <footer>
+        <Image src={signature} alt="" widths={[180, 360]} sizes="180px" aria-hidden="true" />
+        <cite>از نوشته‌های دکتر سارا موسوی</cite>
+      </footer>
+    </blockquote>
+  </div>
+</section>
