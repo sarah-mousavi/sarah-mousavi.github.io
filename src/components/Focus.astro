@@ -1,0 +1,16 @@
+---
+import { focusAreas } from '../data/site';
+---
+
+<section class="section section-soft" id="focus">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">حوزه‌های کاری</p>
+      <h2>معمولاً با چه چیزهایی پیش من می‌آیند</h2>
+    </div>
+
+    <ul class="chips reveal">
+      {focusAreas.map((area) => <li>{area}</li>)}
+    </ul>
+  </div>
+</section>

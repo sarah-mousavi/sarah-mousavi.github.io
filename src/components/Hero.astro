@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/sara.png';
+import { site } from '../data/site';
+---
+
+<section class="hero" id="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-copy">
+      <p class="eyebrow">{site.clinic}</p>
+      <h1>با من خودتو بهتر می‌شناسی<br />و روابط سالمی تجربه می‌کنی.</h1>
+      <p class="lead">
+        دکتر سارا موسوی هستم؛ روان‌درمانگر کودک و بزرگسال با رویکرد <strong>ISTDP</strong>
+        (روان‌درمانی پویشی فشرده و کوتاه‌مدت). اینجا علم روان‌شناسی را به زبان زندگی یاد می‌گیری.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">رزرو وقت مشاوره</a>
+        <a class="btn btn-ghost" href="#approach">ISTDP چیست؟</a>
+      </div>
+
+      <ul class="hero-stats">
+        <li><b>ISTDP</b><span>رویکرد درمانی</span></li>
+        <li><b>کودک و بزرگسال</b><span>گروه سنی</span></li>
+        <li><b>حضوری و آنلاین</b><span>نحوهٔ جلسات</span></li>
+      </ul>
+    </div>
+
+    <figure class="hero-photo">
+      <Image src={portrait} alt={`${site.name}، ${site.role}`} widths={[260, 380, 760]} sizes="(max-width: 980px) 260px, 380px" loading="eager" />
+      <figcaption>{site.name}</figcaption>
+    </figure>
+  </div>
+</section>

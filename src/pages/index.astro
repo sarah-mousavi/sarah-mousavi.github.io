@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import About from '../components/About.astro';
+import Approach from '../components/Approach.astro';
+import Services from '../components/Services.astro';
+import Focus from '../components/Focus.astro';
+import Process from '../components/Process.astro';
+import Faq from '../components/Faq.astro';
+import Contact from '../components/Contact.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base>
+  <Header />
+
+  <main id="main">
+    <Hero />
+    <About />
+    <Approach />
+    <Services />
+    <Focus />
+    <Process />
+    <Faq />
+    <Contact />
+  </main>
+
+  <Footer />
+</Base>
+
+<script>
+  /* sticky header shadow */
+  const header = document.querySelector<HTMLElement>('#siteHeader');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-stuck', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  /* mobile nav */
+  const nav = document.querySelector<HTMLElement>('#nav');
+  const toggle = document.querySelector<HTMLButtonElement>('#navToggle');
+
+  if (nav && toggle) {
+    const closeNav = () => {
+      nav.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'باز کردن فهرست');
+    };
+
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'بستن فهرست' : 'باز کردن فهرست');
+    });
+
+    nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeNav));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeNav();
+    });
+  }
+
+  /* reveal on scroll, staggered per group */
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.reveal'));
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          el.style.transitionDelay = el.dataset.delay ?? '0ms';
+          el.classList.add('is-in');
+          io.unobserve(el);
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.08 }
+    );
+
+    items.forEach((el) => {
+      const siblings = el.parentElement
+        ? Array.from(el.parentElement.querySelectorAll<HTMLElement>('.reveal'))
+        : [];
+      const index = siblings.indexOf(el);
+      el.dataset.delay = `${index > 0 ? Math.min(index, 4) * 70 : 0}ms`;
+      io.observe(el);
+    });
+  } else {
+    items.forEach((el) => el.classList.add('is-in'));
+  }
+
+  /* highlight the nav link for the section in view */
+  const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
+  const links = new Map<string, HTMLAnchorElement>();
+  document.querySelectorAll<HTMLAnchorElement>('.nav a[href^="#"]').forEach((a) => {
+    links.set(a.getAttribute('href')!.slice(1), a);
+  });
+
+  if ('IntersectionObserver' in window && sections.length) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const link = links.get(entry.target.id);
+          if (!link || !entry.isIntersecting) return;
+          links.forEach((l) => l.classList.remove('is-active'));
+          link.classList.add('is-active');
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' }
+    );
+    sections.forEach((s) => spy.observe(s));
+  }
+</script>

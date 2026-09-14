@@ -1,0 +1,23 @@
+---
+import { services } from '../data/site';
+---
+
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">خدمات</p>
+      <h2>جلسات چگونه برگزار می‌شوند؟</h2>
+    </div>
+
+    <div class="cards-4">
+      {
+        services.map((s) => (
+          <article class="service reveal">
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

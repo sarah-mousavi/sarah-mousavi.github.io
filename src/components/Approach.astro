@@ -1,0 +1,33 @@
+---
+import { triangle } from '../data/site';
+---
+
+<section class="section section-dark" id="approach">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">رویکرد درمانی</p>
+      <h2>ISTDP یعنی چه؟</h2>
+      <p class="lead">
+        ISTDP یا «روان‌درمانی پویشی فشرده و کوتاه‌مدت»، روشی است که به‌جای ماندن در سطحِ حرف‌ها،
+        مستقیم سراغ احساسی می‌رود که زیر اضطراب و دفاع‌ها پنهان شده است.
+      </p>
+    </div>
+
+    <div class="cards-3">
+      {
+        triangle.map((item) => (
+          <article class="card reveal">
+            <span class="card-num">{item.num}</span>
+            <h3>{item.title}</h3>
+            <p>{item.body}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="note reveal">
+      هدف درمان، برداشتن این دفاع‌ها به‌شکل تدریجی و ایمن است تا بتوانی احساست را بدون اضطراب
+      فلج‌کننده تجربه و بیان کنی. همین تغییر، کیفیت رابطه‌ها را عوض می‌کند.
+    </p>
+  </div>
+</section>

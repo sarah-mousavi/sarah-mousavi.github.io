@@ -1,0 +1,37 @@
+---
+import { credentials, site } from '../data/site';
+---
+
+<section class="section" id="about">
+  <div class="wrap grid-2">
+    <div class="reveal">
+      <p class="eyebrow">درباره من</p>
+      <h2>درمان، جایی شروع می‌شود که بتوانی با احساس واقعی‌ات روبه‌رو شوی.</h2>
+      <p>
+        بیشتر چیزی که در رابطه‌ها و در زندگی روزمره ما را زمین می‌زند، از بیرون نمی‌آید؛ از اضطرابی
+        می‌آید که اجازه نمی‌دهد احساس واقعی‌مان را ببینیم و بیان کنیم. کار من این است که در فضایی
+        امن، کنار شما بایستم تا آن احساس دیده شود، و الگوهایی که سال‌ها تکرار شده‌اند، جای خود را به
+        انتخاب‌های آگاهانه بدهند.
+      </p>
+      <p>
+        در کلینیک هدیه تبسم با بزرگسالان، زوج‌ها و کودکان کار می‌کنم و در اینستاگرام مفاهیم
+        روان‌شناسی را به زبان ساده و کاربردی می‌نویسم.
+      </p>
+      <a class="btn btn-ghost" href={site.instagram} target="_blank" rel="noopener">صفحهٔ اینستاگرام</a>
+    </div>
+
+    <ul class="cred-list reveal">
+      {
+        credentials.map((c) => (
+          <li>
+            <span class="cred-icon" aria-hidden="true">◆</span>
+            <div>
+              <b>{c.title}</b>
+              <p>{c.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

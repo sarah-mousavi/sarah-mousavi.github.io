@@ -1,0 +1,23 @@
+---
+import { faq } from '../data/site';
+---
+
+<section class="section section-soft" id="faq">
+  <div class="wrap narrow">
+    <div class="section-head reveal">
+      <p class="eyebrow">پرسش‌های متداول</p>
+      <h2>چیزهایی که زیاد پرسیده می‌شود</h2>
+    </div>
+
+    <div class="faq">
+      {
+        faq.map((item) => (
+          <details class="reveal">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

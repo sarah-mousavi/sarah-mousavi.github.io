@@ -1,0 +1,23 @@
+---
+import { steps } from '../data/site';
+---
+
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">مسیر شروع</p>
+      <h2>از پیام تا اولین جلسه</h2>
+    </div>
+
+    <ol class="steps">
+      {
+        steps.map((step) => (
+          <li class="reveal">
+            <b>{step.title}</b>
+            <p>{step.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

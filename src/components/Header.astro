@@ -1,0 +1,30 @@
+---
+import { nav, site } from '../data/site';
+---
+
+<header class="site-header" id="siteHeader">
+  <div class="wrap header-inner">
+    <a class="brand" href="#hero">
+      <span class="brand-mark" aria-hidden="true">س</span>
+      <span class="brand-text">
+        <strong>{site.name}</strong>
+        <small>{site.role}</small>
+      </span>
+    </a>
+
+    <nav class="nav" id="nav" aria-label="فهرست اصلی">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+      <a class="nav-cta" href="#contact">رزرو وقت</a>
+    </nav>
+
+    <button
+      class="nav-toggle"
+      id="navToggle"
+      aria-label="باز کردن فهرست"
+      aria-expanded="false"
+      aria-controls="nav"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>

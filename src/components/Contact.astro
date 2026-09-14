@@ -1,0 +1,124 @@
+---
+import { site } from '../data/site';
+---
+
+<section class="section section-dark" id="contact">
+  <div class="wrap grid-2">
+    <div class="reveal">
+      <p class="eyebrow">رزرو وقت</p>
+      <h2>برای شروع، همین‌جا بنویس.</h2>
+      <p class="lead">
+        فرم را پر کن تا برای هماهنگی زمان جلسه با تو تماس بگیریم. اگر ترجیح می‌دهی سریع‌تر باشد، در
+        اینستاگرام کلمهٔ «مشاوره» را دایرکت کن.
+      </p>
+
+      <ul class="contact-list">
+        <li>
+          <span aria-hidden="true">◎</span>
+          <a href={site.instagram} target="_blank" rel="noopener">اینستاگرام: @{site.instagramHandle}</a>
+        </li>
+        <li>
+          <span aria-hidden="true">◎</span>
+          <a href={site.website}>www.sarahmousavi.ir</a>
+        </li>
+        <li><span aria-hidden="true">◎</span> {site.clinic}</li>
+      </ul>
+    </div>
+
+    <form class="booking" id="bookingForm" novalidate>
+      <div class="field">
+        <label for="name">نام و نام خانوادگی</label>
+        <input id="name" name="name" type="text" autocomplete="name" required />
+        <p class="error" data-for="name"></p>
+      </div>
+
+      <div class="field">
+        <label for="phone">شمارهٔ تماس</label>
+        <input id="phone" name="phone" type="tel" inputmode="tel" dir="ltr" placeholder="09xxxxxxxxx" required />
+        <p class="error" data-for="phone"></p>
+      </div>
+
+      <div class="field">
+        <label for="type">نوع جلسه</label>
+        <select id="type" name="type">
+          <option>مشاورهٔ فردی</option>
+          <option>زوج‌درمانی</option>
+          <option>کودک و نوجوان</option>
+          <option>هنوز مطمئن نیستم</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="mode">نحوهٔ برگزاری</label>
+        <select id="mode" name="mode">
+          <option>حضوری (تهران)</option>
+          <option>آنلاین</option>
+        </select>
+      </div>
+
+      <div class="field field-full">
+        <label for="message">توضیح کوتاه (اختیاری)</label>
+        <textarea id="message" name="message" rows="4" placeholder="در چند خط بنویس چه چیزی تو را به مشاوره رسانده است."></textarea>
+      </div>
+
+      <button class="btn btn-primary" type="submit">ارسال درخواست</button>
+      <p class="form-note">اطلاعات شما محرمانه است و فقط برای هماهنگی جلسه استفاده می‌شود.</p>
+      <p class="form-status" id="formStatus" role="status"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#bookingForm');
+  const status = document.querySelector<HTMLParagraphElement>('#formStatus');
+
+  if (form && status) {
+    const setError = (name: string, msg: string) => {
+      const input = form.elements.namedItem(name) as HTMLInputElement | null;
+      const box = form.querySelector<HTMLElement>(`.error[data-for="${name}"]`);
+      input?.parentElement?.classList.toggle('has-error', Boolean(msg));
+      if (box) box.textContent = msg;
+    };
+
+    /* accept Persian and Arabic-Indic digits in the phone field */
+    const normalizeDigits = (str: string) =>
+      str
+        .replace(/[۰-۹]/g, (d) => String(d.charCodeAt(0) - 0x06f0))
+        .replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x0660));
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      status.textContent = '';
+
+      const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
+      const phone = normalizeDigits(
+        (form.elements.namedItem('phone') as HTMLInputElement).value
+      ).replace(/[\s-]/g, '');
+
+      let ok = true;
+
+      if (name.length < 3) {
+        setError('name', 'لطفاً نام و نام خانوادگی را کامل بنویسید.');
+        ok = false;
+      } else setError('name', '');
+
+      if (!/^(\+98|0098|0)?9\d{9}$/.test(phone)) {
+        setError('phone', 'شمارهٔ موبایل معتبر نیست.');
+        ok = false;
+      } else setError('phone', '');
+
+      if (!ok) {
+        form.querySelector<HTMLInputElement>('.field.has-error input')?.focus();
+        return;
+      }
+
+      /* TODO: post to a real endpoint (Formspree, a PHP handler, or an API route). */
+      status.textContent = 'درخواست شما ثبت شد. به‌زودی برای هماهنگی زمان جلسه تماس می‌گیریم.';
+      form.reset();
+    });
+
+    form.querySelectorAll<HTMLInputElement>('input, textarea').forEach((el) => {
+      el.addEventListener('input', () => setError(el.name, ''));
+    });
+  }
+</script>
