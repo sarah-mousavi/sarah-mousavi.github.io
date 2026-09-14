@@ -1,5 +1,5 @@
 ---
-import { focusAreas } from '../data/site';
+import { focusGroups } from '../data/site';
 ---
 
 <section class="section section-sage" id="focus">
@@ -9,8 +9,17 @@ import { focusAreas } from '../data/site';
       <h2>معمولاً با چه چیزهایی پیش من می‌آیند</h2>
     </div>
 
-    <ul class="chips reveal">
-      {focusAreas.map((area) => <li>{area}</li>)}
-    </ul>
+    <div class="focus-groups">
+      {
+        focusGroups.map((group) => (
+          <section class="focus-group reveal">
+            <h3>{group.title}</h3>
+            <ul class="chips">
+              {group.items.map((item) => <li>{item}</li>)}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
   </div>
 </section>

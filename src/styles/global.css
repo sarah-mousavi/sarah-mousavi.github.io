@@ -74,7 +74,7 @@ h1, h2 {
   font-family: var(--font-serif); font-weight: 400;
   line-height: 1.7; margin: 0 0 .5em;
 }
-h1 { font-size: clamp(2.2rem, 1.1rem + 4.4vw, 4.3rem); letter-spacing: -.01em; }
+h1 { font-size: clamp(2.1rem, 1.05rem + 3.9vw, 3.75rem); letter-spacing: -.01em; }
 h2 { font-size: clamp(1.8rem, 1.15rem + 2.6vw, 3rem); letter-spacing: -.01em; }
 h3 { font-family: var(--font-ui); font-size: 1.08rem; font-weight: 600; line-height: 1.8; margin: 0 0 .5em; }
 p  { margin: 0 0 1.15em; color: var(--ink-soft); }
@@ -102,12 +102,12 @@ img { max-width: 100%; height: auto; display: block; }
 /* the section label: a hairline, then small caps-ish text */
 .eyebrow {
   display: flex; align-items: center; gap: .8em;
-  font-size: .76rem; font-weight: 600; letter-spacing: .14em;
-  color: var(--accent); margin: 0 0 1.2em;
+  font-size: .72rem; font-weight: 600; letter-spacing: .18em;
+  color: var(--accent); margin: 0 0 1.6em;
 }
 .eyebrow::after { content: ""; flex: 1; max-width: 60px; height: 1px; background: currentColor; opacity: .4; }
 
-.section { padding-block: clamp(72px, 10vw, 150px); }
+.section { padding-block: clamp(80px, 11vw, 176px); }
 .section-soft { background: var(--paper-warm); }
 .section-sage { background: var(--sage); }
 .section-dark { background: var(--dark); color: #f2ece3; }
@@ -115,7 +115,7 @@ img { max-width: 100%; height: auto; display: block; }
 .section-dark p, .section-dark .lead { color: #c4bab0; }
 .section-dark .eyebrow { color: #d59a90; }
 
-.section-head { max-width: 58ch; margin-bottom: clamp(40px, 5vw, 72px); }
+.section-head { max-width: 54ch; margin-bottom: clamp(48px, 6vw, 88px); }
 .section-head h2::after {
   content: ""; display: block; width: 56px; height: 1px; margin-top: .8em;
   background: var(--accent); opacity: .55;
@@ -199,7 +199,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ── hero ───────────────────────────────────────────────────────── */
 
-.hero { position: relative; overflow: hidden; padding-block: clamp(40px, 6vw, 88px) clamp(24px, 3vw, 40px); }
+.hero { position: relative; overflow: hidden; padding-block: clamp(36px, 5vw, 72px) clamp(24px, 3vw, 40px); }
 /* two soft organic washes give the hero depth without breaking the calm */
 .hero::before, .hero::after { content: ""; position: absolute; pointer-events: none; z-index: 0; }
 .hero::before {
@@ -215,8 +215,8 @@ img { max-width: 100%; height: auto; display: block; }
 .hero .wrap, .hero-meta { position: relative; z-index: 1; }
 
 .hero-inner {
-  display: grid; grid-template-columns: 1fr minmax(0, 520px);
-  gap: clamp(32px, 6vw, 90px); align-items: center;
+  display: grid; grid-template-columns: 1.02fr minmax(0, 540px);
+  gap: clamp(32px, 5vw, 76px); align-items: center;
 }
 .hero-copy { position: relative; z-index: 1; }
 
@@ -243,10 +243,10 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .hero-photo img {
   position: relative; z-index: 1;
-  width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 22%;
-  border-radius: 260px 260px var(--r-lg) var(--r-lg);
+  width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: 50% 20%;
+  border-radius: 300px 300px var(--r-lg) var(--r-lg);
   box-shadow:
-    0 0 0 1px rgba(168,111,103,.28),
+    0 0 0 1px rgba(168,111,103,.3),
     0 60px 110px -58px rgba(38,34,31,.75),
     0 24px 50px -36px rgba(38,34,31,.45);
   /* the lower edge dissolves into the page instead of stopping hard */
@@ -262,7 +262,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ── statement ──────────────────────────────────────────────────── */
 
-.statement { padding-block: clamp(78px, 11vw, 165px); background: var(--paper-warm); }
+.statement { padding-block: clamp(88px, 13vw, 200px); background: var(--paper-warm); }
 .statement blockquote { margin: 0; }
 .statement p {
   margin: 0; font-family: var(--font-serif); color: var(--ink);
@@ -380,6 +380,16 @@ img { max-width: 100%; height: auto; display: block; }
   opacity: 0; transform: translateX(8px); transition: opacity .35s, transform .35s;
 }
 .service-list a:hover .service-arrow { opacity: 1; transform: translateX(0); }
+
+/* ── areas of work, grouped ─────────────────────────────────────── */
+
+.focus-groups { display: grid; gap: clamp(34px, 4vw, 54px); }
+.focus-group { display: grid; grid-template-columns: 200px 1fr; gap: 10px 36px; align-items: start; }
+.focus-group h3 {
+  margin: 0; padding-top: .35em;
+  font-family: var(--font-serif); font-weight: 400;
+  font-size: clamp(1.15rem, .95rem + .8vw, 1.5rem); color: var(--ink);
+}
 
 /* ── focus chips ────────────────────────────────────────────────── */
 
@@ -556,6 +566,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (max-width: 680px) {
   body { font-size: 16px; }
+  .focus-group { grid-template-columns: 1fr; gap: 14px; }
   .steps, .booking, .footer-top { grid-template-columns: 1fr; }
   .hero-photo { max-width: 240px; }
   .hero-photo img { aspect-ratio: 5 / 6; border-radius: 150px 150px var(--r-lg) var(--r-lg); }
