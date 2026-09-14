@@ -2,8 +2,8 @@
 import { credentials, site } from '../data/site';
 ---
 
-<section class="section" id="about">
-  <div class="wrap grid-2">
+<section class="section" id="story">
+  <div class="wrap about-grid">
     <div class="reveal">
       <p class="eyebrow">درباره من</p>
       <h2>درمان، جایی شروع می‌شود که بتوانی با احساس واقعی‌ات روبه‌رو شوی.</h2>
@@ -13,25 +13,21 @@ import { credentials, site } from '../data/site';
         یک قدم از خودت و از آدمِ روبه‌رو دورتر می‌شوی.
       </p>
       <p>
-        کار من این است که در فضایی امن کنارت بایستم تا آن احساس بالاخره دیده شود؛ نه با فشار، و نه
-        با نصیحت. وقتی احساس جای خودش را پیدا کند، الگویی که سال‌ها تکرارش کرده‌ای دیگر مجبور نیست
-        تکرار شود.
-      </p>
-      <p>
-        در کلینیک هدیه تبسم با بزرگسالان، زوج‌ها و کودکان کار می‌کنم، و در اینستاگرام همین‌ها را به
-        زبان ساده می‌نویسم.
+        کار من این است که در فضایی امن کنارت بایستم تا آن احساس بالاخره دیده شود؛ نه با فشار، و نه با
+        نصیحت. وقتی احساس جای خودش را پیدا کند، الگویی که سال‌ها تکرارش کرده‌ای دیگر مجبور نیست تکرار
+        شود.
       </p>
       <a class="btn btn-ghost" href={site.instagram} target="_blank" rel="noopener">صفحهٔ اینستاگرام</a>
     </div>
 
     <ul class="cred-list reveal">
       {
-        credentials.map((c) => (
+        credentials.map((item) => (
           <li>
             <span class="cred-icon" aria-hidden="true">◆</span>
             <div>
-              <b>{c.title}</b>
-              <p>{c.body}</p>
+              <b>{item.title}</b>
+              <p>{item.body}</p>
             </div>
           </li>
         ))

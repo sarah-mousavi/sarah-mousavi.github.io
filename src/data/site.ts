@@ -20,12 +20,11 @@ export const site = {
 };
 
 export const nav = [
-  { href: '#about', label: 'درباره من' },
-  { href: '#approach', label: 'رویکرد ISTDP' },
+  { href: '#dialogue', label: 'آشناست؟' },
+  { href: '#approach', label: 'درمان چیست؟' },
   { href: '#services', label: 'خدمات' },
-  { href: '#focus', label: 'حوزه‌های کاری' },
-  { href: '#process', label: 'مسیر شروع' },
-  { href: '#faq', label: 'پرسش‌های متداول' },
+  { href: '#story', label: 'درباره من' },
+  { href: '#faq', label: 'پرسش‌ها' },
 ];
 
 export const credentials = [

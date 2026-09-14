@@ -1,38 +1,37 @@
 ---
 import { Image } from 'astro:assets';
 import portrait from '../assets/sara.jpg';
-import signature from '../assets/signature.png';
 import { site } from '../data/site';
 ---
 
 <section class="hero" id="hero">
-  <div class="hero-glow" aria-hidden="true"></div>
-  <Image class="hero-sign" src={signature} alt="" widths={[640, 1280]} sizes="640px" aria-hidden="true" />
-
   <div class="wrap hero-inner">
     <div class="hero-copy">
-      <p class="eyebrow">{site.clinic}</p>
-      <h1>با من خودتو بهتر می‌شناسی و روابط سالمی تجربه می‌کنی.</h1>
-      <p class="lead">
-        دکتر سارا موسوی هستم؛ روان‌درمانگر کودک و بزرگسال با رویکرد <strong>ISTDP</strong> —
-        روان‌درمانی پویشی فشرده و کوتاه‌مدت. اینجا علم روان‌شناسی را به زبان زندگی یاد می‌گیری.
+      <p class="hero-name">{site.name}</p>
+
+      <h1>با خودت روبه‌رو شو،<br />تا رابطه‌ات با زندگی تغییر کند.</h1>
+
+      <p class="hero-role">
+        روان‌درمانگر کودک و بزرگسال<br />
+        <span>متخصص ISTDP</span>
       </p>
 
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#contact">رزرو وقت مشاوره</a>
-        <a class="btn btn-ghost" href="#approach">ISTDP چیست؟</a>
+        <a class="btn btn-primary" href="#contact">رزرو جلسه</a>
+        <a class="btn btn-ghost" href="#approach">آشنایی با ISTDP</a>
       </div>
-
-      <ul class="hero-stats">
-        <li><b>ISTDP</b><span>رویکرد درمانی</span></li>
-        <li><b>کودک و بزرگسال</b><span>گروه سنی</span></li>
-        <li><b>حضوری و آنلاین</b><span>نحوهٔ جلسات</span></li>
-      </ul>
     </div>
 
     <figure class="hero-photo">
-      <Image src={portrait} alt={`${site.name}، ${site.role}`} widths={[260, 380, 760]} sizes="(max-width: 980px) 260px, 380px" loading="eager" />
-      <figcaption>{site.name}</figcaption>
+      <Image
+        src={portrait}
+        alt={`${site.name}، ${site.role}`}
+        widths={[520, 760, 1080]}
+        sizes="(max-width: 980px) 86vw, 520px"
+        loading="eager"
+      />
     </figure>
   </div>
+
+  <p class="hero-meta wrap">{site.clinic}</p>
 </section>

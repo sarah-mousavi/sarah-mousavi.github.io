@@ -9,16 +9,19 @@ import { services } from '../data/site';
       <h2>جلسات چگونه برگزار می‌شوند؟</h2>
     </div>
 
-    <div class="cards-4">
+    <ul class="service-list">
       {
-        services.map((s, i) => (
-          <article class="service reveal">
-            <span class="service-index" aria-hidden="true">{`۰${(i + 1).toLocaleString('fa-IR')}`}</span>
-            <h3>{s.title}</h3>
-            <p>{s.body}</p>
-          </article>
+        services.map((service, index) => (
+          <li class="reveal">
+            <a href="#contact">
+              <span class="service-num">{`۰${(index + 1).toLocaleString('fa-IR')}`}</span>
+              <span class="service-name">{service.title}</span>
+              <span class="service-body">{service.body}</span>
+              <span class="service-arrow" aria-hidden="true">←</span>
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </div>
 </section>

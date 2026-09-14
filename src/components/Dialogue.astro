@@ -3,52 +3,46 @@ import { Image } from 'astro:assets';
 import mentalLoad from '../assets/mental-load.webp';
 import attackDefense from '../assets/attack-defense.webp';
 
-/* Her own post illustrations — the dialogue is inside the artwork. */
+/* Her own lines and her own artwork — the section people should remember. */
 const panels = [
   {
-    src: mentalLoad,
+    quote: '«فرقی نداره، هر چی خودت بگی.»',
     label: 'بارِ فکری',
-    caption: '«فرقی نداره، هر چی خودت بگی» — بی‌تفاوتی که نقابِ سازگاری می‌زند.',
+    body: 'گاهی بی‌تفاوتی نیست؛ راهی‌ست برای فرار از احساس — و از مسئولیتِ انتخاب.',
+    src: mentalLoad,
     alt: 'زنی کلافه از همسرش می‌پرسد چرا هر بار می‌گوید فرقی نداره، هر چی خودت بگی.',
   },
   {
-    src: attackDefense,
+    quote: '«تو خودت بدتری.»',
     label: 'دفاعِ تهاجمی',
-    caption: '«تو خودت بدتری» — حمله، وقتی سپرِ فرار از واقعیت می‌شود.',
+    body: 'وقتی حمله کردن، راه ساده‌تری برای فرار از آسیب‌پذیری است.',
+    src: attackDefense,
     alt: 'مردی با انگشت اشاره به سمت زنی که جمع شده و نگران است.',
   },
 ];
 ---
 
-<section class="section dialogue-section" id="dialogue">
+<section class="section familiar" id="dialogue">
   <div class="wrap">
-    <div class="section-head reveal">
-      <p class="eyebrow">آشناست؟</p>
-      <h2>این جمله‌ها را توی خانهٔ خودت شنیده‌ای؟</h2>
-    </div>
+    <p class="eyebrow reveal">آشناست؟</p>
 
-    <ul class="panels">
-      {
-        panels.map((panel) => (
-          <li class="reveal">
-            <figure>
-              <Image
-                src={panel.src}
-                alt={panel.alt}
-                widths={[560, 1170]}
-                sizes="(max-width: 860px) 92vw, 540px"
-              />
-              <figcaption>
-                <b>{panel.label}</b>
-                <span>{panel.caption}</span>
-              </figcaption>
-            </figure>
-          </li>
-        ))
-      }
-    </ul>
+    {
+      panels.map((panel, index) => (
+        <article class={`familiar-row${index % 2 ? ' is-flipped' : ''}`}>
+          <div class="familiar-copy reveal">
+            <blockquote>{panel.quote}</blockquote>
+            <h3>{panel.label}</h3>
+            <p>{panel.body}</p>
+          </div>
 
-    <p class="dialogue-note reveal">
+          <figure class="familiar-art reveal">
+            <Image src={panel.src} alt={panel.alt} widths={[620, 1170]} sizes="(max-width: 860px) 92vw, 620px" />
+          </figure>
+        </article>
+      ))
+    }
+
+    <p class="familiar-close reveal">
       هیچ‌کدام از این‌ها «بدجنسی» نیست. هر کدام دفاعی‌ست که یک نفر جلوی احساسِ خودش گرفته —
       و دقیقاً همان‌جاست که کارِ درمان شروع می‌شود.
     </p>
