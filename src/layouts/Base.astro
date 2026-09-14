@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { title = site.title, description = site.description } = Astro.props;
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://saramousavi.github.io');
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://sarah-mousavi.github.io');
 
 const jsonLd = {
   '@context': 'https://schema.org',
