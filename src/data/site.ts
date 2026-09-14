@@ -7,6 +7,12 @@ export const site = {
   instagram: 'https://www.instagram.com/dr_saramousavi_psychology/',
   instagramHandle: 'dr_saramousavi_psychology',
   website: 'https://www.sarahmousavi.ir',
+  phone: {
+    display: '۰۹۱۲ ۲۷۹ ۴۶۰۶',   // shown on the page
+    tel: '+989122794606',        // tel: link, E.164
+    whatsapp: '989122794606',    // wa.me, no + and no leading zero
+  },
+  whatsappText: 'سلام، برای رزرو وقت مشاوره پیام می‌دم.',
   title: 'دکتر سارا موسوی | روان‌درمانگر کودک و بزرگسال با رویکرد ISTDP',
   description:
     'دکتر سارا موسوی، روان‌درمانگر کودک و بزرگسال با رویکرد ISTDP در کلینیک هدیه تبسم تهران. مشاوره فردی، زوج‌درمانی، روان‌درمانی کودک و نوجوان، و جلسات آنلاین.',

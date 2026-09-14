@@ -16,6 +16,7 @@ const jsonLd = {
   name: site.name,
   description: `${site.role} با رویکرد ${site.approach}`,
   url: canonical.href,
+  telephone: site.phone.tel,
   sameAs: [site.instagram, site.website],
   address: {
     '@type': 'PostalAddress',

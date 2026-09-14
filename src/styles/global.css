@@ -362,7 +362,21 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* contact */
 
-.contact-list { list-style: none; margin: 1.6em 0 0; padding: 0; display: grid; gap: 12px; }
+/* fastest path first: WhatsApp, then a tappable number */
+.contact-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 1.9em; }
+.contact-actions .btn { display: inline-flex; align-items: center; gap: .6em; }
+
+.btn-wa { background: #1fa855; color: #fff; }
+.btn-wa:hover { background: #178f46; }
+.btn-wa svg { width: 1.15em; height: 1.15em; }
+
+.btn-tel {
+  border-color: rgba(255, 255, 255, .22); color: #efe9e2;
+  font-variant-numeric: tabular-nums; letter-spacing: .02em;
+}
+.btn-tel:hover { border-color: #e0838c; color: #fff; }
+
+.contact-list { list-style: none; margin: 2em 0 0; padding: 0; display: grid; gap: 12px; }
 .contact-list li { display: flex; gap: 12px; align-items: baseline; font-size: .96rem; color: #b8b1ab; }
 .contact-list span { color: #e0838c; font-size: .75rem; }
 .contact-list a { text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.2); padding-bottom: 1px; color: #efe9e2; }
