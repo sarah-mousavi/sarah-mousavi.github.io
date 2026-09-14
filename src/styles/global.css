@@ -1,13 +1,25 @@
-/* ── Dana (Fontiran) — self-hosted, so the page does not depend on
-   fonts.googleapis.com, which is unreliable from inside Iran.
-   Proprietary: a Fontiran web licence is required. See public/fonts/FontLicense.txt ── */
+/* ── Type system: two families, self-hosted ─────────────────────────
+   Vazirmatn (SIL OFL) carries all running text — it is the more open,
+   more neutral face and holds up better in long Persian paragraphs.
+   Dana (Fontiran) is used only at display sizes, where its tighter,
+   more geometric cut gives headings the character Vazirmatn lacks —
+   and where it matches the typography of her Instagram posts.
+   Dana is proprietary: see public/fonts/FontLicense.txt ── */
 
-@font-face { font-family: Dana; src: url("/fonts/Dana-Light.woff2") format("woff2");     font-weight: 300; font-style: normal; font-display: swap; }
-@font-face { font-family: Dana; src: url("/fonts/Dana-Regular.woff2") format("woff2");   font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: Dana; src: url("/fonts/Dana-Medium.woff2") format("woff2");    font-weight: 500; font-style: normal; font-display: swap; }
-@font-face { font-family: Dana; src: url("/fonts/Dana-DemiBold.woff2") format("woff2");  font-weight: 600; font-style: normal; font-display: swap; }
-@font-face { font-family: Dana; src: url("/fonts/Dana-Bold.woff2") format("woff2");      font-weight: 700; font-style: normal; font-display: swap; }
-@font-face { font-family: Dana; src: url("/fonts/Dana-ExtraBold.woff2") format("woff2"); font-weight: 800; font-style: normal; font-display: swap; }
+/* text */
+@font-face { font-family: Vazirmatn; src: url("/fonts/Vazirmatn-300.woff2") format("woff2"); font-weight: 300; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+FB50-FDFF, U+FE70-FEFF; }
+@font-face { font-family: Vazirmatn; src: url("/fonts/Vazirmatn-400.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+FB50-FDFF, U+FE70-FEFF; }
+@font-face { font-family: Vazirmatn; src: url("/fonts/Vazirmatn-500.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+FB50-FDFF, U+FE70-FEFF; }
+@font-face { font-family: Vazirmatn; src: url("/fonts/Vazirmatn-600.woff2") format("woff2"); font-weight: 600; font-display: swap; unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+FB50-FDFF, U+FE70-FEFF; }
+@font-face { font-family: Vazirmatn; src: url("/fonts/Vazirmatn-latin-300.woff2") format("woff2"); font-weight: 300; font-display: swap; }
+@font-face { font-family: Vazirmatn; src: url("/fonts/Vazirmatn-latin-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: Vazirmatn; src: url("/fonts/Vazirmatn-latin-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: Vazirmatn; src: url("/fonts/Vazirmatn-latin-600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+
+/* display */
+@font-face { font-family: Dana; src: url("/fonts/Dana-DemiBold.woff2") format("woff2");  font-weight: 600; font-display: swap; }
+@font-face { font-family: Dana; src: url("/fonts/Dana-Bold.woff2") format("woff2");      font-weight: 700; font-display: swap; }
+@font-face { font-family: Dana; src: url("/fonts/Dana-ExtraBold.woff2") format("woff2"); font-weight: 800; font-display: swap; }
 
 /* ── Dr. Sara Mousavi — practice site ───────────────────────────── */
 
@@ -33,6 +45,9 @@
   --shadow:    0 1px 2px rgba(27,26,25,.05), 0 12px 32px -18px rgba(27,26,25,.35);
   --shadow-lg: 0 30px 70px -40px rgba(27,26,25,.55);
 
+  --font-text:    Vazirmatn, "Segoe UI", Tahoma, sans-serif;
+  --font-display: Dana, Vazirmatn, Tahoma, sans-serif;
+
   --wrap: 1140px;
   --pad:  24px;
 }
@@ -51,7 +66,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 92px; }
 
 body {
   margin: 0;
-  font-family: Dana, Vazirmatn, "Segoe UI", Tahoma, sans-serif;
+  font-family: var(--font-text);
   font-weight: 400;
   font-size: 17px;
   line-height: 2;
@@ -60,7 +75,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 { line-height: 1.45; font-weight: 700; margin: 0 0 .6em; letter-spacing: -.4px; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.45; font-weight: 700; margin: 0 0 .6em; letter-spacing: -.4px; }
 h1 { font-size: clamp(2.05rem, 1.2rem + 3.4vw, 3.7rem); font-weight: 800; line-height: 1.38; }
 h2 { font-size: clamp(1.5rem, 1.15rem + 1.6vw, 2.2rem); }
 h3 { font-size: 1.12rem; }
@@ -101,7 +116,7 @@ img { max-width: 100%; height: auto; display: block; }
 /* her own signature, traced from the mark on every post */
 .brand-mark { width: 52px; height: auto; flex: none; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.5; }
-.brand-text strong { font-size: 1rem; font-weight: 700; }
+.brand-text strong { font-family: var(--font-display); font-size: 1rem; font-weight: 700; }
 .brand-text small { font-size: .76rem; color: var(--ink-mute); }
 
 .nav { display: flex; align-items: center; gap: 4px; }
@@ -242,7 +257,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .quote-band blockquote { margin: 0; }
 .quote-band p {
-  margin: 0; color: var(--ink);
+  margin: 0; color: var(--ink); font-family: var(--font-display);
   font-size: clamp(1.6rem, 1rem + 2.6vw, 2.9rem);
   font-weight: 300; line-height: 1.75; letter-spacing: -.5px;
 }
@@ -298,7 +313,7 @@ img { max-width: 100%; height: auto; display: block; }
 .tri-node circle { fill: #e0838c; }
 .tri-node text {
   fill: #fff; font-size: 18px; font-weight: 700; text-anchor: middle;
-  font-family: Dana, Vazirmatn, Tahoma, sans-serif;
+  font-family: var(--font-display);
 }
 .tri-node-key circle { fill: var(--accent); }
 .tri-node-key text { font-size: 21px; }
@@ -306,7 +321,7 @@ img { max-width: 100%; height: auto; display: block; }
 .tri-arrow { fill: none; stroke: rgba(255,255,255,.32); stroke-width: 1.5; }
 .tri-caption {
   fill: rgba(255,255,255,.4); font-size: 12px; text-anchor: middle;
-  font-family: Dana, Vazirmatn, Tahoma, sans-serif;
+  font-family: var(--font-display);
 }
 
 .tri-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
