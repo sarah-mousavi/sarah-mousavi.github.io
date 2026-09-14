@@ -24,26 +24,29 @@
 /* ── Dr. Sara Mousavi — practice site ───────────────────────────── */
 
 :root {
-  --ink:        #1a1830;
-  --ink-soft:   #4b4763;
-  --ink-mute:   #837e98;
-  --paper:      #fcfaf7;
-  --paper-warm: #f4eee6;
-  --grey:       #efedea;
-  --line:       #e3dcd2;
-  --hairline:   #d9d2c7;
+  --ink:        #2a2230;   /* warm plum-ink, not blue-black */
+  --ink-soft:   #5c5260;
+  --ink-mute:   #918697;
+  --paper:      #fdfaf6;
+  --paper-warm: #f6efe6;
+  --blush:      #f7e6e2;   /* soft rose ground */
+  --sage:       #e8ece3;   /* muted green ground */
+  --sage-deep:  #7f9078;
+  --grey:       #f1ece6;
+  --line:       #e8ded2;
+  --hairline:   #ddd2c4;
   --accent:     #b3313c;
   --accent-dk:  #8e232d;
   --navy:       #2c2a78;
-  --dark:       #171636;
-  --dark-soft:  #211f46;
+  --dark:       #2e2430;   /* warm dark, replaces the cold navy slab */
+  --dark-soft:  #3b2f3d;
 
-  --r-sm: 10px;
-  --r:    18px;
-  --r-lg: 28px;
+  --r-sm: 14px;
+  --r:    24px;
+  --r-lg: 36px;
 
-  --shadow:    0 1px 2px rgba(27,26,25,.05), 0 12px 32px -18px rgba(27,26,25,.35);
-  --shadow-lg: 0 30px 70px -40px rgba(27,26,25,.55);
+  --shadow:    0 1px 2px rgba(66,48,58,.04), 0 14px 36px -20px rgba(66,48,58,.28);
+  --shadow-lg: 0 34px 80px -46px rgba(66,48,58,.42);
 
   --font-text:    Vazirmatn, "Segoe UI", Tahoma, sans-serif;
   --font-display: Dana, Vazirmatn, Tahoma, sans-serif;
@@ -124,7 +127,7 @@ img { max-width: 100%; height: auto; display: block; }
   text-decoration: none; font-size: .92rem; color: var(--ink-soft);
   padding: .5em .78em; border-radius: 999px; transition: color .2s, background .2s;
 }
-.nav a:hover { color: var(--ink); background: var(--paper-warm); }
+.nav a:hover { color: var(--ink); background: var(--blush); }
 .nav a.is-active { color: var(--accent); }
 
 .nav .nav-cta {
@@ -214,25 +217,25 @@ img { max-width: 100%; height: auto; display: block; }
   background: var(--paper-warm);
   box-shadow:
     0 0 0 14px var(--paper),
-    0 0 0 15px rgba(44, 42, 120, .3),
-    0 40px 80px -46px rgba(26, 24, 48, .62);
+    0 0 0 15px rgba(179, 49, 60, .22),
+    0 40px 80px -46px rgba(66, 48, 58, .45);
 }
 .hero-photo figcaption { margin-top: 1.1em; font-size: .88rem; color: var(--ink-mute); }
 
 
 /* ── dialogue: her own post illustrations ───────────────────────── */
 
-.dialogue-section { background: var(--grey); }
+.dialogue-section { background: var(--blush); }
 
-.dialogue-section .wrap { max-width: 1340px; }
+.dialogue-section .wrap { max-width: 1480px; }
 .panels {
   list-style: none; margin: 0; padding: 0;
   display: grid; grid-template-columns: 1fr 1fr; gap: clamp(22px, 3vw, 48px);
 }
 .panels figure { margin: 0; }
 .panels img {
-  width: 100%; height: auto; border-radius: 14px;
-  box-shadow: 0 26px 56px -38px rgba(26, 24, 48, .8);
+  width: 100%; height: auto; border-radius: var(--r-lg);
+  box-shadow: 0 30px 64px -40px rgba(66, 48, 58, .55);
 }
 .panels figcaption {
   display: flex; flex-direction: column; gap: 2px;
@@ -247,11 +250,24 @@ img { max-width: 100%; height: auto; display: block; }
 }
 
 
+
+/* a hand-drawn stroke under every section heading — the page's one
+   handwritten gesture, echoing the signature */
+.section-head h2, .hero h1 { position: relative; }
+.section-head h2::after {
+  content: ""; display: block; width: 118px; height: 11px; margin-top: .5em;
+  background: no-repeat center/contain
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='118' height='11' viewBox='0 0 118 11'%3E%3Cpath d='M2 7.4C22 3.1 47 1.9 74 3.2c14 .7 28 2.4 42 5' fill='none' stroke='%23b3313c' stroke-width='2.4' stroke-linecap='round' opacity='.55'/%3E%3C/svg%3E");
+}
+.section-dark .section-head h2::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='118' height='11' viewBox='0 0 118 11'%3E%3Cpath d='M2 7.4C22 3.1 47 1.9 74 3.2c14 .7 28 2.4 42 5' fill='none' stroke='%23eda3a4' stroke-width='2.4' stroke-linecap='round' opacity='.7'/%3E%3C/svg%3E");
+}
+
 /* ── the quote band: the page's one display-scale moment ────────── */
 
 .quote-band {
-  padding-block: clamp(72px, 10vw, 140px);
-  background: var(--paper-warm);
+  padding-block: clamp(84px, 11vw, 160px);
+  background: var(--blush);
   border-block: 1px solid var(--hairline);
   text-align: center;
 }
@@ -273,12 +289,13 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ── sections ───────────────────────────────────────────────────── */
 
-.section { padding-block: clamp(56px, 8vw, 108px); }
+.section { padding-block: clamp(66px, 9vw, 132px); }
 .section-soft { background: var(--paper-warm); }
+.section-blush { background: var(--blush); }
 .section-dark { background: var(--dark); color: #efe9e2; }
 .section-dark h2 { color: #fff; }
-.section-dark p, .section-dark .lead { color: #b8b1ab; }
-.section-dark .eyebrow { color: #e0838c; }
+.section-dark p, .section-dark .lead { color: #cbbcc4; }
+.section-dark .eyebrow { color: #eda3a4; }
 .section-dark .lead strong { color: #fff; }
 
 .section-head { max-width: 62ch; margin-bottom: clamp(32px, 4vw, 56px); }
@@ -309,38 +326,41 @@ img { max-width: 100%; height: auto; display: block; }
 
 .triangle { margin: 0; }
 .triangle svg { width: 100%; height: auto; overflow: visible; }
+.tri-frame { stroke: rgba(42,34,48,.2); }
 
-.tri-node circle { fill: #e0838c; }
+.section-sage { background: var(--sage); }
+
+.tri-node circle { fill: var(--sage-deep); }
 .tri-node text {
-  fill: #fff; font-size: 18px; font-weight: 700; text-anchor: middle;
+  fill: var(--ink); font-size: 18px; font-weight: 700; text-anchor: middle;
   font-family: var(--font-display);
 }
 .tri-node-key circle { fill: var(--accent); }
 .tri-node-key text { font-size: 21px; }
 
-.tri-arrow { fill: none; stroke: rgba(255,255,255,.32); stroke-width: 1.5; }
+.tri-arrow { fill: none; stroke: rgba(42,34,48,.28); stroke-width: 1.5; }
 .tri-caption {
-  fill: rgba(255,255,255,.4); font-size: 12px; text-anchor: middle;
+  fill: var(--ink-mute); font-size: 12px; text-anchor: middle;
   font-family: var(--font-display);
 }
 
 .tri-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .tri-list li {
   display: flex; gap: 20px; align-items: baseline;
-  padding: 24px 4px; border-bottom: 1px solid rgba(255,255,255,.09);
+  padding: 26px 4px; border-bottom: 1px solid rgba(42,34,48,.1);
 }
 .tri-list li:last-child { border-bottom: 0; }
 .tri-num {
   flex: none; width: 1.4em;
-  font-size: 1.5rem; font-weight: 300; color: #e0838c; opacity: .75;
+  font-size: 1.5rem; font-weight: 300; color: var(--sage-deep);
 }
-.tri-list h3 { color: #fff; margin-bottom: .3em; }
+.tri-list h3 { margin-bottom: .3em; }
 .tri-list p { margin: 0; font-size: .95rem; }
 
 .note {
   margin: clamp(40px, 5vw, 64px) 0 0; padding-inline-start: 26px; max-width: 74ch;
   border-inline-start: 2px solid var(--accent);
-  font-size: 1.02rem; font-weight: 300; line-height: 2.1;
+  font-size: 1.05rem; font-weight: 300; line-height: 2.15; color: var(--ink-soft);
 }
 
 /* services */
@@ -367,7 +387,7 @@ img { max-width: 100%; height: auto; display: block; }
   border: 1px solid var(--hairline); color: var(--ink-soft);
   transition: border-color .2s, color .2s, background .2s;
 }
-.chips li:hover { border-color: var(--navy); color: var(--ink); background: rgba(44,42,120,.04); }
+.chips li:hover { border-color: var(--sage-deep); color: var(--ink); background: rgba(127,144,120,.12); }
 
 /* process */
 
@@ -513,7 +533,7 @@ img { max-width: 100%; height: auto; display: block; }
   .hero-photo img {
     box-shadow:
       0 0 0 9px var(--paper),
-      0 0 0 10px rgba(44, 42, 120, .3),
+      0 0 0 10px rgba(179, 49, 60, .22),
       0 30px 60px -40px rgba(26, 24, 48, .62);
   }
   .cards-4, .steps, .booking, .panels, .footer-top { grid-template-columns: 1fr; }
