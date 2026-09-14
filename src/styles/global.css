@@ -30,6 +30,7 @@
   --paper:      #fdfaf6;
   --paper-warm: #f6efe6;
   --blush:      #f7e6e2;   /* soft rose ground */
+  --canvas:     #f3e8df;   /* matches the illustrations' recoloured ground */
   --sage:       #e8ece3;   /* muted green ground */
   --sage-deep:  #7f9078;
   --grey:       #f1ece6;
@@ -225,7 +226,7 @@ img { max-width: 100%; height: auto; display: block; }
 
 /* ── dialogue: her own post illustrations ───────────────────────── */
 
-.dialogue-section { background: var(--blush); }
+.dialogue-section { background: var(--canvas); }
 
 .dialogue-section .wrap { max-width: 1480px; }
 .panels {
@@ -233,13 +234,12 @@ img { max-width: 100%; height: auto; display: block; }
   display: grid; grid-template-columns: 1fr 1fr; gap: clamp(22px, 3vw, 48px);
 }
 .panels figure { margin: 0; }
-.panels img {
-  width: 100%; height: auto; border-radius: var(--r-lg);
-  box-shadow: 0 30px 64px -40px rgba(66, 48, 58, .55);
-}
+/* the artwork's ground is recoloured to --canvas, so the figures stand
+   directly on the page instead of inside a frame */
+.panels img { width: 100%; height: auto; }
 .panels figcaption {
   display: flex; flex-direction: column; gap: 2px;
-  padding: 18px 4px 0; border-top: 1px solid var(--hairline); margin-top: 20px;
+  padding: 18px 4px 0; border-top: 1px solid rgba(42,34,48,.14); margin-top: 8px;
 }
 .panels figcaption b { font-size: .98rem; color: var(--accent); }
 .panels figcaption span { font-size: .92rem; line-height: 1.95; color: var(--ink-soft); }
