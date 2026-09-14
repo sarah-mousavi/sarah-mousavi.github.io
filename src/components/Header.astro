@@ -1,11 +1,13 @@
 ---
+import { Image } from 'astro:assets';
+import signature from '../assets/signature.png';
 import { nav, site } from '../data/site';
 ---
 
 <header class="site-header" id="siteHeader">
   <div class="wrap header-inner">
     <a class="brand" href="#hero">
-      <span class="brand-mark" aria-hidden="true">س</span>
+      <Image class="brand-mark" src={signature} alt="" widths={[96, 192]} sizes="96px" loading="eager" aria-hidden="true" />
       <span class="brand-text">
         <strong>{site.name}</strong>
         <small>{site.role}</small>

@@ -1,0 +1,30 @@
+---
+import { dialogue } from '../data/site';
+---
+
+<section class="section dialogue-section" id="dialogue">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">آشناست؟</p>
+      <h2>این جمله‌ها را توی خانهٔ خودت شنیده‌ای؟</h2>
+    </div>
+
+    <ul class="bubbles">
+      {
+        dialogue.map((item) => (
+          <li class="reveal">
+            <blockquote class="bubble">
+              {item.line[0]}<b>{item.line[1]}</b>{item.line[2]}
+            </blockquote>
+            <p class="bubble-label">{item.label}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="dialogue-note reveal">
+      هیچ‌کدام از این‌ها «بدجنسی» نیست. هر کدام دفاعی‌ست که یک نفر جلوی احساسِ خودش گرفته —
+      و دقیقاً همان‌جاست که کارِ درمان شروع می‌شود.
+    </p>
+  </div>
+</section>

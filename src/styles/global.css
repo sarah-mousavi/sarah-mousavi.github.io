@@ -6,6 +6,7 @@
   --ink-mute:   #7b7570;
   --paper:      #fbf9f6;
   --paper-warm: #f3ede5;
+  --grey:       #efeeec;
   --line:       #e4ddd3;
   --accent:     #b3313c;
   --accent-dk:  #8e232d;
@@ -76,12 +77,8 @@ img { max-width: 100%; height: auto; display: block; }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 72px; }
 
 .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-.brand-mark {
-  width: 42px; height: 42px; flex: none; border-radius: 50%;
-  display: grid; place-items: center;
-  background: var(--ink); color: var(--paper-warm);
-  font-weight: 700; font-size: 1.05rem;
-}
+/* her own signature, traced from the mark on every post */
+.brand-mark { width: 52px; height: auto; flex: none; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.5; }
 .brand-text strong { font-size: 1rem; font-weight: 700; }
 .brand-text small { font-size: .76rem; color: var(--ink-mute); }
@@ -161,6 +158,40 @@ img { max-width: 100%; height: auto; display: block; }
   box-shadow: var(--shadow-lg);
 }
 .hero-photo figcaption { margin-top: 1.1em; font-size: .88rem; color: var(--ink-mute); }
+
+
+/* ── dialogue (the lines from her posts) ────────────────────────── */
+
+.dialogue-section { background: var(--grey); }
+
+.bubbles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 26px; }
+.bubbles > li { display: flex; flex-direction: column; gap: 10px; }
+
+.bubble {
+  position: relative; margin: 0; padding: 26px 28px;
+  background: #fff; border-radius: 22px; border-end-start-radius: 4px;
+  font-size: 1.05rem; line-height: 2.1; color: var(--ink);
+  box-shadow: 0 14px 34px -26px rgba(27,26,25,.7);
+}
+.bubble b { color: var(--accent); font-weight: 700; }
+
+/* the tail, on the reading-start side like the bubbles in her carousels */
+.bubble::after {
+  content: ""; position: absolute; bottom: 0; inset-inline-start: -9px;
+  width: 18px; height: 18px; background: #fff;
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+}
+[dir="rtl"] .bubble::after { clip-path: polygon(0 0, 100% 100%, 0 100%); }
+
+.bubble-label {
+  margin: 0; padding-inline-start: 10px;
+  font-size: .84rem; font-weight: 600; color: var(--ink-mute); letter-spacing: .02em;
+}
+
+.dialogue-note {
+  margin: 38px auto 0; max-width: 62ch; text-align: center;
+  font-size: 1rem; color: var(--ink-soft);
+}
 
 /* ── sections ───────────────────────────────────────────────────── */
 
@@ -341,7 +372,8 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (max-width: 680px) {
   body { font-size: 16px; }
-  .cards-3, .cards-4, .steps, .booking { grid-template-columns: 1fr; }
+  .cards-3, .cards-4, .steps, .booking, .bubbles { grid-template-columns: 1fr; }
+  .bubble { font-size: 1rem; padding: 22px 22px; }
   .hero-actions .btn { flex: 1 1 auto; text-align: center; }
   .footer-inner { flex-direction: column; }
 }
