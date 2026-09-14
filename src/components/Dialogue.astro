@@ -1,5 +1,23 @@
 ---
-import { dialogue } from '../data/site';
+import { Image } from 'astro:assets';
+import mentalLoad from '../assets/mental-load.webp';
+import attackDefense from '../assets/attack-defense.webp';
+
+/* Her own post illustrations — the dialogue is inside the artwork. */
+const panels = [
+  {
+    src: mentalLoad,
+    label: 'بارِ فکری',
+    caption: '«فرقی نداره، هر چی خودت بگی» — بی‌تفاوتی که نقابِ سازگاری می‌زند.',
+    alt: 'زنی کلافه از همسرش می‌پرسد چرا هر بار می‌گوید فرقی نداره، هر چی خودت بگی.',
+  },
+  {
+    src: attackDefense,
+    label: 'دفاعِ تهاجمی',
+    caption: '«تو خودت بدتری» — حمله، وقتی سپرِ فرار از واقعیت می‌شود.',
+    alt: 'مردی با انگشت اشاره به سمت زنی که جمع شده و نگران است.',
+  },
+];
 ---
 
 <section class="section dialogue-section" id="dialogue">
@@ -9,14 +27,22 @@ import { dialogue } from '../data/site';
       <h2>این جمله‌ها را توی خانهٔ خودت شنیده‌ای؟</h2>
     </div>
 
-    <ul class="bubbles">
+    <ul class="panels">
       {
-        dialogue.map((item) => (
+        panels.map((panel) => (
           <li class="reveal">
-            <blockquote class="bubble">
-              {item.line[0]}<b>{item.line[1]}</b>{item.line[2]}
-            </blockquote>
-            <p class="bubble-label">{item.label}</p>
+            <figure>
+              <Image
+                src={panel.src}
+                alt={panel.alt}
+                widths={[560, 1170]}
+                sizes="(max-width: 860px) 92vw, 540px"
+              />
+              <figcaption>
+                <b>{panel.label}</b>
+                <span>{panel.caption}</span>
+              </figcaption>
+            </figure>
           </li>
         ))
       }

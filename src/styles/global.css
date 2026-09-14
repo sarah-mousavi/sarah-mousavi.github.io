@@ -181,55 +181,42 @@ img { max-width: 100%; height: auto; display: block; }
 
 .hero-photo { margin: 0; text-align: center; }
 .hero-photo { position: relative; }
+/* a concentric hairline ring, held off the portrait by a ring of paper */
 .hero-photo img {
   position: relative; z-index: 1;
-  width: min(100%, 400px); aspect-ratio: 1; margin-inline: auto; border-radius: 50%;
+  width: min(100%, 380px); aspect-ratio: 1; margin-inline: auto; border-radius: 50%;
   background: var(--paper-warm);
-  box-shadow: 0 40px 80px -46px rgba(26,24,48,.62);
+  box-shadow:
+    0 0 0 14px var(--paper),
+    0 0 0 15px rgba(44, 42, 120, .3),
+    0 40px 80px -46px rgba(26, 24, 48, .62);
 }
-/* an offset hairline ring — the portrait sits inside a drawn circle, not on a drop shadow */
-.hero-photo::before {
-  content: ""; position: absolute; z-index: 0;
-  width: min(100%, 400px); aspect-ratio: 1; border-radius: 50%;
-  inset-inline-start: 50%; top: 0;
-  transform: translateX(-50%) translate(18px, -18px);
-  border: 1px solid var(--navy); opacity: .3;
-}
-[dir="rtl"] .hero-photo::before { transform: translateX(50%) translate(-18px, -18px); }
 .hero-photo figcaption { margin-top: 1.1em; font-size: .88rem; color: var(--ink-mute); }
 
 
-/* ── dialogue (the lines from her posts) ────────────────────────── */
+/* ── dialogue: her own post illustrations ───────────────────────── */
 
 .dialogue-section { background: var(--grey); }
 
-.bubbles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 26px; }
-.bubbles > li { display: flex; flex-direction: column; gap: 10px; }
-
-.bubble {
-  position: relative; margin: 0; padding: 26px 28px;
-  background: #fff; border-radius: 22px; border-end-start-radius: 4px;
-  font-size: 1.05rem; line-height: 2.1; color: var(--ink);
-  box-shadow: 0 14px 34px -26px rgba(27,26,25,.7);
+.panels {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: 1fr 1fr; gap: clamp(22px, 3vw, 40px);
 }
-.bubble b { color: var(--accent); font-weight: 700; }
-
-/* the tail, on the reading-start side like the bubbles in her carousels */
-.bubble::after {
-  content: ""; position: absolute; bottom: 0; inset-inline-start: -9px;
-  width: 18px; height: 18px; background: #fff;
-  clip-path: polygon(100% 0, 100% 100%, 0 100%);
+.panels figure { margin: 0; }
+.panels img {
+  width: 100%; height: auto; border-radius: 14px;
+  box-shadow: 0 26px 56px -38px rgba(26, 24, 48, .8);
 }
-[dir="rtl"] .bubble::after { clip-path: polygon(0 0, 100% 100%, 0 100%); }
-
-.bubble-label {
-  margin: 0; padding-inline-start: 10px;
-  font-size: .84rem; font-weight: 600; color: var(--ink-mute); letter-spacing: .02em;
+.panels figcaption {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 18px 4px 0; border-top: 1px solid var(--hairline); margin-top: 20px;
 }
+.panels figcaption b { font-size: .98rem; color: var(--accent); }
+.panels figcaption span { font-size: .92rem; line-height: 1.95; color: var(--ink-soft); }
 
 .dialogue-note {
-  margin: 38px auto 0; max-width: 62ch; text-align: center;
-  font-size: 1rem; color: var(--ink-soft);
+  margin: clamp(36px, 4vw, 56px) auto 0; max-width: 62ch; text-align: center;
+  font-size: 1rem; font-weight: 300; line-height: 2.05; color: var(--ink-soft);
 }
 
 /* ── sections ───────────────────────────────────────────────────── */
@@ -446,9 +433,14 @@ img { max-width: 100%; height: auto; display: block; }
 
 @media (max-width: 680px) {
   body { font-size: 16px; }
-  .cards-4, .steps, .booking, .bubbles { grid-template-columns: 1fr; }
+  .hero-photo img {
+    box-shadow:
+      0 0 0 9px var(--paper),
+      0 0 0 10px rgba(44, 42, 120, .3),
+      0 30px 60px -40px rgba(26, 24, 48, .62);
+  }
+  .cards-4, .steps, .booking, .panels { grid-template-columns: 1fr; }
   .service { grid-template-columns: auto 1fr; }
-  .bubble { font-size: 1rem; padding: 22px 22px; }
   .hero-actions .btn { flex: 1 1 auto; text-align: center; }
   .footer-inner { flex-direction: column; }
 }
