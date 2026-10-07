@@ -1,0 +1,115 @@
+---
+import { Image } from 'astro:assets';
+import mentalLoad from '../../assets/mental-load.webp';
+import attackDefense from '../../assets/attack-defense.webp';
+
+/* Dr Mousavi's own material, moved here from the old personal homepage. */
+const panels = [
+  {
+    quote: '«فرقی نداره، هر چی خودت بگی.»',
+    label: 'بارِ فکری',
+    body: 'گاهی بی‌تفاوتی نیست؛ راهی‌ست برای فرار از احساس — و از مسئولیتِ انتخاب.',
+    src: mentalLoad,
+    alt: 'زنی کلافه از همسرش می‌پرسد چرا هر بار می‌گوید فرقی نداره، هر چی خودت بگی.',
+  },
+  {
+    quote: '«تو خودت بدتری.»',
+    label: 'دفاعِ تهاجمی',
+    body: 'وقتی حمله کردن، راه ساده‌تری برای فرار از آسیب‌پذیری است.',
+    src: attackDefense,
+    alt: 'مردی با انگشت اشاره به سمت زنی که جمع شده و نگران است.',
+  },
+];
+
+const chain = [
+  { title: 'احساس', body: 'چیزی که واقعاً نسبت به آدم‌های مهم زندگی‌ات داری؛ خشم، اندوه، دلبستگی، گناه.' },
+  { title: 'اضطراب', body: 'تا آن احساس بالا می‌آید، بدنت مضطرب می‌شود.' },
+  { title: 'دفاع', body: 'سکوت، توجیه، حمله، فاصله گرفتن — هر چیزی که اضطراب را کم کند.' },
+  { title: 'فاصله از خود', body: 'دیگر نمی‌دانی واقعاً چه می‌خواهی و چه حسی داری.' },
+  { title: 'فاصله از دیگران', body: 'و آدمِ روبه‌رو، هر بار کمی دورتر می‌شود.' },
+];
+---
+
+<section class="statement">
+  <div class="wrap narrow">
+    <blockquote class="reveal">
+      <p>من قرار نیست به تو بگویم چه کار کنی.</p>
+      <p class="statement-second">قرار است کمک کنم بفهمی چه چیزی درونت اتفاق می‌افتد.</p>
+    </blockquote>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap narrow">
+    <div class="section-head reveal">
+      <p class="eyebrow">دربارهٔ کار من</p>
+      <h2>درمان، جایی شروع می‌شود که بتوانی با احساس واقعی‌ات روبه‌رو شوی.</h2>
+    </div>
+
+    <div class="prose reveal">
+      <p>
+        آنچه زمینت می‌زند معمولاً از بیرون نمی‌آید. از اضطرابی می‌آید که نمی‌گذارد احساس واقعی‌ات را
+        ببینی، چه برسد به اینکه بگویی‌اش. پس یاد می‌گیری سکوت کنی، توجیه کنی، یا حمله کنی — و هر بار
+        یک قدم از خودت و از آدمِ روبه‌رو دورتر می‌شوی.
+      </p>
+      <p>
+        کار من این است که در فضایی امن کنارت بایستم تا آن احساس بالاخره دیده شود؛ نه با فشار، و نه با
+        نصیحت. وقتی احساس جای خودش را پیدا کند، الگویی که سال‌ها تکرارش کرده‌ای دیگر مجبور نیست تکرار
+        شود.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section familiar">
+  <div class="wrap">
+    <p class="eyebrow reveal">آشناست؟</p>
+
+    {
+      panels.map((panel, index) => (
+        <article class={`familiar-row${index % 2 ? ' is-flipped' : ''}`}>
+          <div class="familiar-copy reveal">
+            <blockquote>{panel.quote}</blockquote>
+            <h3>{panel.label}</h3>
+            <p>{panel.body}</p>
+          </div>
+          <figure class="familiar-art reveal">
+            <Image src={panel.src} alt={panel.alt} widths={[620, 1170]} sizes="(max-width: 860px) 92vw, 620px" />
+          </figure>
+        </article>
+      ))
+    }
+
+    <p class="familiar-close reveal">
+      هیچ‌کدام از این‌ها «بدجنسی» نیست. هر کدام دفاعی‌ست که یک نفر جلوی احساسِ خودش گرفته —
+      و دقیقاً همان‌جاست که کارِ درمان شروع می‌شود.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">رویکرد</p>
+      <h2>ISTDP چیست؟</h2>
+      <p class="lead">
+        در ISTDP — روان‌درمانی پویشی فشرده و کوتاه‌مدت — تمرکز ویژه‌ای بر احساس، اضطراب و دفاع‌هایی
+        است که در همان لحظه مانع تجربه و بیانِ احساس می‌شوند.
+      </p>
+    </div>
+
+    <ol class="chain">
+      {
+        chain.map((step, index) => (
+          <li class="reveal">
+            <h3>{step.title}</h3>
+            <p>{step.body}</p>
+            {index < chain.length - 1 && <span class="chain-arrow" aria-hidden="true"></span>}
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="chain-close reveal">درمان یعنی این چرخه را ببینی.</p>
+  </div>
+</section>

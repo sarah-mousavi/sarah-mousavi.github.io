@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHead from '../../components/PageHead.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { clinic, services } from '../../data/clinic';
+---
+
+<Base title={`خدمات | ${clinic.name}`} description="ارزیابی و تشخیص، آزمون‌های روان‌شناختی، روان‌درمانی فردی، زوج‌درمانی، سکس‌تراپی و روان‌درمانی کودک و نوجوان در کلینیک دل‌آسا.">
+  <Header />
+
+  <main id="main">
+    <PageHead
+      eyebrow="خدمات"
+      title="در دل‌آسا چه کاری انجام می‌شود؟"
+      lead="هر خدمت در صفحهٔ خودش توضیح داده شده است — اینکه دقیقاً چیست، برای چه کسی مناسب است، و جلسه چطور پیش می‌رود."
+    />
+
+    <section class="section section-top-flush">
+      <div class="wrap">
+        <ul class="service-list">
+          {
+            services.map((service, i) => (
+              <li class="reveal">
+                <a href={`/services/${service.slug}`}>
+                  <span class="service-num">{`۰${(i + 1).toLocaleString('fa-IR')}`}</span>
+                  <span class="service-name">{service.title}</span>
+                  <span class="service-body">{service.short}</span>
+                  <span class="service-arrow" aria-hidden="true">←</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <CallToAction />
+  </main>
+
+  <Footer />
+  <div class="sticky-cta"><a class="btn btn-primary" href="/contact">رزرو وقت</a></div>
+</Base>

@@ -1,0 +1,49 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHead from '../../components/PageHead.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { clinic, team } from '../../data/clinic';
+---
+
+<Base title={`همکاران | ${clinic.name}`} description="درمانگران کلینیک دل‌آسا، رویکرد و حوزهٔ تخصصی هر کدام.">
+  <Header />
+
+  <main id="main">
+    <PageHead
+      eyebrow="همکاران"
+      title="چه کسی شما را می‌بیند"
+      lead="هر درمانگر رویکرد و حوزهٔ تخصصی خودش را دارد. ارجاع شما بر اساس نتیجهٔ ارزیابی انجام می‌شود، نه بر اساس نوبت خالی."
+    />
+
+    <section class="section section-top-flush">
+      <div class="wrap">
+        <ul class="team-list team-list-full">
+          {
+            team.map((member) => (
+              <li class="reveal">
+                <a href={`/team/${member.slug}`}>
+                  <b>{member.name}</b>
+                  <span>{member.role}</span>
+                  <p>{member.short}</p>
+                  <span class="team-approach">{member.approach}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <!-- TODO: معرفی سایر همکاران با عکس، رویکرد، سابقه و حوزهٔ تخصصی -->
+        <p class="note reveal">
+          معرفی سایر همکاران به‌زودی در همین صفحه اضافه می‌شود.
+        </p>
+      </div>
+    </section>
+
+    <CallToAction />
+  </main>
+
+  <Footer />
+  <div class="sticky-cta"><a class="btn btn-primary" href="/contact">رزرو وقت</a></div>
+</Base>

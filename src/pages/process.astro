@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHead from '../components/PageHead.astro';
+import CallToAction from '../components/CallToAction.astro';
+import { clinic, process } from '../data/clinic';
+---
+
+<Base title={`مسیر پذیرش | ${clinic.name}`} description="مراحل پذیرش در کلینیک دل‌آسا: تماس، تعیین وقت ارزیابی، مصاحبهٔ بالینی و آزمون، ارجاع به درمانگر، و جلسات منظم.">
+  <Header />
+
+  <main id="main">
+    <PageHead
+      eyebrow="مسیر پذیرش"
+      title="از اولین پیام تا جلسهٔ درمان"
+      lead="در دل‌آسا هیچ‌کس مستقیم وارد جلسهٔ درمان نمی‌شود. این مسیر پنج مرحله دارد و در هر مرحله می‌دانید کجای کار هستید."
+    />
+
+    <section class="section section-top-flush">
+      <div class="wrap narrow">
+        <ol class="stages">
+          {
+            process.map((step) => (
+              <li class="reveal">
+                <span class="stage-num" aria-hidden="true">{step.num}</span>
+                <div>
+                  <h2>{step.title}</h2>
+                  <p>{step.body}</p>
+                  <p class="stage-detail">{step.detail}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="prose reveal intake-note">
+          <h3>اطلاعاتی که از شما می‌گیریم</h3>
+          <p>
+            نام و نام خانوادگی، شمارهٔ تماس، تحصیلات و شغل. این اطلاعات فقط برای تشکیل پرونده و
+            هماهنگی جلسات استفاده می‌شود و محرمانه است.
+          </p>
+          <h3>ساعت کار</h3>
+          <p>{clinic.hours}.</p>
+        </div>
+      </div>
+    </section>
+
+    <CallToAction />
+  </main>
+
+  <Footer />
+  <div class="sticky-cta"><a class="btn btn-primary" href="/contact">رزرو وقت</a></div>
+</Base>

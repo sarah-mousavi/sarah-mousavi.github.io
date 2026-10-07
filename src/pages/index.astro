@@ -1,122 +1,135 @@
 ---
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Statement from '../components/Statement.astro';
-import About from '../components/About.astro';
-import Dialogue from '../components/Dialogue.astro';
-import Approach from '../components/Approach.astro';
-import Services from '../components/Services.astro';
-import Focus from '../components/Focus.astro';
-import Process from '../components/Process.astro';
-import Faq from '../components/Faq.astro';
-import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
+import CallToAction from '../components/CallToAction.astro';
+import { Image } from 'astro:assets';
+import mark from '../assets/brand/mark.png';
+import { clinic, services, process, team } from '../data/clinic';
 ---
 
 <Base>
   <Header />
 
   <main id="main">
-    <Hero />
-    <Statement />
-    <Dialogue />
-    <Approach />
-    <Services />
-    <About />
-    <Focus />
-    <Process />
-    <Faq />
-    <Contact />
+    <section class="hero clinic-hero">
+      <div class="wrap">
+        <p class="hero-name reveal">{clinic.tagline}</p>
+        <h1 class="reveal">جایی برای اینکه با خودت<br />روبه‌رو شوی.</h1>
+        <p class="lead reveal">
+          دل‌آسا مرکزی برای ارزیابی، روان‌درمانی و سلامت روان است. کار را با شناخت دقیق موضوع
+          شروع می‌کنیم و بعد شما را به درمانگری می‌سپاریم که تخصصش با مسئلهٔ شما بیشترین تناسب را دارد.
+        </p>
+        <div class="hero-actions reveal">
+          <a class="btn btn-primary" href="/contact">رزرو وقت ارزیابی</a>
+          <a class="btn btn-ghost" href="/process">مسیر پذیرش چگونه است؟</a>
+        </div>
+      </div>
+
+      <p class="hero-meta wrap">{clinic.city} · {clinic.hours}</p>
+    </section>
+
+    <section class="section section-soft" id="services">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">خدمات</p>
+          <h2>در دل‌آسا چه کاری انجام می‌شود؟</h2>
+        </div>
+
+        <ul class="service-list">
+          {
+            services.map((service, i) => (
+              <li class="reveal">
+                <a href={`/services/${service.slug}`}>
+                  <span class="service-num">{`۰${(i + 1).toLocaleString('fa-IR')}`}</span>
+                  <span class="service-name">{service.title}</span>
+                  <span class="service-body">{service.short}</span>
+                  <span class="service-arrow" aria-hidden="true">←</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">مسیر پذیرش</p>
+          <h2>از اولین پیام تا جلسهٔ درمان</h2>
+          <p class="lead">
+            در هر مرحله می‌دانید کجای کار هستید. هیچ‌کس بدون ارزیابی وارد جلسهٔ درمان نمی‌شود.
+          </p>
+        </div>
+
+        <ol class="steps steps-5">
+          {
+            process.map((step) => (
+              <li class="reveal">
+                <b>{step.num}. {step.title}</b>
+                <p>{step.body}</p>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="section-more reveal"><a href="/process">توضیح کامل هر مرحله ←</a></p>
+      </div>
+    </section>
+
+    <section class="section section-sage" id="team">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">همکاران</p>
+          <h2>چه کسی شما را می‌بیند</h2>
+          <p class="lead">
+            هر درمانگر دل‌آسا رویکرد و حوزهٔ تخصصی خودش را دارد. ارجاع شما به یکی از آن‌ها
+            بر اساس نتیجهٔ ارزیابی انجام می‌شود، نه بر اساس نوبت خالی.
+          </p>
+        </div>
+
+        <ul class="team-list">
+          {
+            team.map((member) => (
+              <li class="reveal">
+                <a href={`/team/${member.slug}`}>
+                  <b>{member.name}</b>
+                  <span>{member.role}</span>
+                  <p>{member.short}</p>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="section-more reveal"><a href="/team">همهٔ همکاران ←</a></p>
+      </div>
+    </section>
+
+    <section class="section logo-story">
+      <div class="wrap narrow">
+        <Image class="logo-story-mark reveal" src={mark} alt="" widths={[150, 300]} sizes="150px" aria-hidden="true" />
+        <p class="eyebrow reveal">نام و نشان</p>
+        <h2 class="reveal">چرا «دل‌آسا»؟</h2>
+        <p class="reveal">
+          «دل‌آسا» یعنی آنچه دل را آرام می‌کند. نشان کلینیک هم از همین ایده ساخته شده است:
+          یک قلب که از دو پیکر شکل گرفته — یکی در آغوش دیگری. نه نجات‌دادن، نه نصیحت‌کردن؛
+          فقط حضورِ کسی که کنارت می‌نشیند تا آنچه سخت است، تنها تجربه نشود.
+        </p>
+        <p class="reveal">
+          رنگ خاکی و گرمِ نشان هم انتخاب شده تا فضای کلینیک را منتقل کند: آرام، انسانی،
+          و دور از سردیِ فضاهای درمانی.
+        </p>
+      </div>
+    </section>
+
+    <CallToAction />
   </main>
 
   <Footer />
 
   <div class="sticky-cta">
-    <a class="btn btn-primary" href="#contact">رزرو جلسه</a>
+    <a class="btn btn-primary" href="/contact">رزرو وقت</a>
   </div>
 </Base>
-
-<script>
-  /* sticky header shadow */
-  const header = document.querySelector<HTMLElement>('#siteHeader');
-  if (header) {
-    const onScroll = () => header.classList.toggle('is-stuck', window.scrollY > 8);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
-
-  /* mobile nav */
-  const nav = document.querySelector<HTMLElement>('#nav');
-  const toggle = document.querySelector<HTMLButtonElement>('#navToggle');
-
-  if (nav && toggle) {
-    const closeNav = () => {
-      nav.classList.remove('is-open');
-      toggle.setAttribute('aria-expanded', 'false');
-      toggle.setAttribute('aria-label', 'باز کردن فهرست');
-    };
-
-    toggle.addEventListener('click', () => {
-      const open = nav.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', String(open));
-      toggle.setAttribute('aria-label', open ? 'بستن فهرست' : 'باز کردن فهرست');
-    });
-
-    nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeNav));
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeNav();
-    });
-  }
-
-  /* reveal on scroll, staggered per group */
-  const items = Array.from(document.querySelectorAll<HTMLElement>('.reveal'));
-
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const el = entry.target as HTMLElement;
-          el.style.transitionDelay = el.dataset.delay ?? '0ms';
-          el.classList.add('is-in');
-          io.unobserve(el);
-        });
-      },
-      { rootMargin: '0px 0px -10% 0px', threshold: 0.08 }
-    );
-
-    items.forEach((el) => {
-      const siblings = el.parentElement
-        ? Array.from(el.parentElement.querySelectorAll<HTMLElement>('.reveal'))
-        : [];
-      const index = siblings.indexOf(el);
-      el.dataset.delay = `${index > 0 ? Math.min(index, 4) * 70 : 0}ms`;
-      io.observe(el);
-    });
-  } else {
-    items.forEach((el) => el.classList.add('is-in'));
-  }
-
-  /* highlight the nav link for the section in view */
-  const sections = Array.from(document.querySelectorAll<HTMLElement>('main section[id]'));
-  const links = new Map<string, HTMLAnchorElement>();
-  document.querySelectorAll<HTMLAnchorElement>('.nav a[href^="#"]').forEach((a) => {
-    links.set(a.getAttribute('href')!.slice(1), a);
-  });
-
-  if ('IntersectionObserver' in window && sections.length) {
-    const spy = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const link = links.get(entry.target.id);
-          if (!link || !entry.isIntersecting) return;
-          links.forEach((l) => l.classList.remove('is-active'));
-          link.classList.add('is-active');
-        });
-      },
-      { rootMargin: '-45% 0px -50% 0px' }
-    );
-    sections.forEach((s) => spy.observe(s));
-  }
-</script>

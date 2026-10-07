@@ -1,0 +1,62 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PageHead from '../../components/PageHead.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { clinic, services } from '../../data/clinic';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug }, props: { service } }));
+}
+
+const { service } = Astro.props;
+const others = services.filter((s) => s.slug !== service.slug);
+---
+
+<Base title={`${service.title} | ${clinic.name}`} description={service.short}>
+  <Header />
+
+  <main id="main">
+    <PageHead eyebrow="خدمات" title={service.title} lead={service.intro} />
+
+    <section class="section section-top-flush">
+      <div class="wrap narrow">
+        <div class="prose reveal">
+          {service.body.map((para) => <p>{para}</p>)}
+        </div>
+
+        {service.note && <p class="note reveal">{service.note}</p>}
+      </div>
+    </section>
+
+    <section class="section section-soft">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">سایر خدمات</p>
+          <h2>شاید این هم مربوط باشد</h2>
+        </div>
+
+        <ul class="service-list">
+          {
+            others.map((other) => (
+              <li class="reveal">
+                <a href={`/services/${other.slug}`}>
+                  <span class="service-num" aria-hidden="true">◆</span>
+                  <span class="service-name">{other.title}</span>
+                  <span class="service-body">{other.short}</span>
+                  <span class="service-arrow" aria-hidden="true">←</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <CallToAction />
+  </main>
+
+  <Footer />
+  <div class="sticky-cta"><a class="btn btn-primary" href="/contact">رزرو وقت</a></div>
+</Base>

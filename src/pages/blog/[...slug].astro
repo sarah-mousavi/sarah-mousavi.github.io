@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import { getCollection, render } from 'astro:content';
+import { clinic } from '../../data/clinic';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const fa = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Base title={`${post.data.title} | ${clinic.name}`} description={post.data.description}>
+  <Header />
+
+  <main id="main">
+    <article>
+      <section class="page-head">
+        <div class="wrap narrow">
+          <p class="eyebrow reveal">
+            <a href="/blog">مقالات</a>
+          </p>
+          <h1 class="reveal">{post.data.title}</h1>
+          <p class="post-meta reveal">
+            <time datetime={post.data.date.toISOString()}>{fa.format(post.data.date)}</time>
+            <span>·</span>
+            <span>{post.data.author}</span>
+          </p>
+        </div>
+      </section>
+
+      <section class="section section-top-flush">
+        <div class="wrap narrow">
+          <div class="prose reveal">
+            <Content />
+          </div>
+        </div>
+      </section>
+    </article>
+
+    <CallToAction />
+  </main>
+
+  <Footer />
+  <div class="sticky-cta"><a class="btn btn-primary" href="/contact">رزرو وقت</a></div>
+</Base>

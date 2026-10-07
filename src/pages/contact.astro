@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHead from '../components/PageHead.astro';
+import { clinic } from '../data/clinic';
+
+const waHref = `https://wa.me/${clinic.phone.whatsapp}?text=${encodeURIComponent(clinic.whatsappText)}`;
+---
+
+<Base title={`تماس و رزرو وقت | ${clinic.name}`} description={`راه‌های تماس با کلینیک دل‌آسا: واتس‌اپ، تلگرام، اینستاگرام و تلفن. ${clinic.hours}.`}>
+  <Header />
+
+  <main id="main">
+    <PageHead
+      eyebrow="تماس و رزرو وقت"
+      title="برای شروع، یک گفت‌وگو کافی است."
+      lead="سریع‌ترین راه، واتس‌اپ است. پذیرش دل‌آسا هر روز از ۹ صبح تا ۹ شب پاسخگوست."
+    />
+
+    <section class="section section-top-flush">
+      <div class="wrap contact-grid">
+        <div class="reveal">
+          <ul class="channel-list">
+            <li>
+              <a class="channel" href={waHref} target="_blank" rel="noopener">
+                <b>واتس‌اپ</b>
+                <span>سریع‌ترین راه رزرو وقت ارزیابی</span>
+              </a>
+            </li>
+            <li>
+              <a class="channel" href={clinic.telegram} target="_blank" rel="noopener">
+                <b>تلگرام</b>
+                <span>اگر نوشتن را ترجیح می‌دهید</span>
+              </a>
+            </li>
+            <li>
+              <a class="channel" href={`tel:${clinic.phone.tel}`}>
+                <b dir="ltr">{clinic.phone.display}</b>
+                <span>تماس تلفنی با پذیرش</span>
+              </a>
+            </li>
+            <li>
+              <a class="channel" href={clinic.instagram} target="_blank" rel="noopener">
+                <b>اینستاگرام</b>
+                <span>مطالب آموزشی و معرفی خدمات</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <aside class="reveal contact-aside">
+          <h2>ساعت کار</h2>
+          <p>{clinic.hours}</p>
+
+          <h2>نشانی</h2>
+          <p>{clinic.address}</p>
+
+          <h2>در تماس چه می‌پرسیم</h2>
+          <p>
+            نام و نام خانوادگی، شمارهٔ تماس، تحصیلات و شغل، و یک توضیح کوتاه از موضوع — تا بتوانیم
+            وقتِ ارزیابی مناسبی برایتان تعیین کنیم.
+          </p>
+
+          <p class="crisis">
+            اگر همین حالا در وضعیت اورژانسی یا خطر آسیب به خود هستید، منتظر نوبت نمانید؛ با
+            اورژانس اجتماعی ۱۲۳ یا اورژانس ۱۱۵ تماس بگیرید.
+          </p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

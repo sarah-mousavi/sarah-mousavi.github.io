@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import CallToAction from '../../components/CallToAction.astro';
+import SaraProfile from '../../components/profiles/SaraProfile.astro';
+import { Image } from 'astro:assets';
+import portrait from '../../assets/sara.jpg';
+import { clinic, team } from '../../data/clinic';
+
+export function getStaticPaths() {
+  return team.map((member) => ({ params: { slug: member.slug }, props: { member } }));
+}
+
+const { member } = Astro.props;
+---
+
+<Base title={`${member.name} | ${clinic.name}`} description={`${member.name}، ${member.role}. رویکرد: ${member.approach}.`}>
+  <Header />
+
+  <main id="main">
+    <section class="profile-head">
+      <div class="wrap profile-head-inner">
+        <div class="reveal">
+          <p class="eyebrow">همکاران دل‌آسا</p>
+          <h1>{member.name}</h1>
+          <p class="profile-role">{member.role}</p>
+          <p class="profile-approach">{member.approach}</p>
+
+          <ul class="profile-specialties">
+            {member.specialties.map((item) => <li>{item}</li>)}
+          </ul>
+
+          <a class="btn btn-primary" href="/contact">رزرو وقت ارزیابی</a>
+        </div>
+
+        {
+          member.slug === 'sara-mousavi' && (
+            <figure class="profile-photo reveal">
+              <Image src={portrait} alt={`${member.name}، ${member.role}`} widths={[380, 760]} sizes="(max-width: 980px) 70vw, 380px" loading="eager" />
+            </figure>
+          )
+        }
+      </div>
+    </section>
+
+    {member.slug === 'sara-mousavi' && <SaraProfile />}
+
+    <CallToAction />
+  </main>
+
+  <Footer />
+  <div class="sticky-cta"><a class="btn btn-primary" href="/contact">رزرو وقت</a></div>
+</Base>

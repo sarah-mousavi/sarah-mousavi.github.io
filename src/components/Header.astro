@@ -1,22 +1,27 @@
 ---
 import { Image } from 'astro:assets';
-import signature from '../assets/signature.png';
-import { nav, site } from '../data/site';
+import lockup from '../assets/brand/lockup.png';
+import { clinic, nav } from '../data/clinic';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => path === href || path.startsWith(href + '/');
 ---
 
 <header class="site-header" id="siteHeader">
   <div class="wrap header-inner">
-    <a class="brand" href="#hero">
-      <Image class="brand-mark" src={signature} alt="" widths={[96, 192]} sizes="96px" loading="eager" aria-hidden="true" />
-      <span class="brand-text">
-        <strong>{site.name}</strong>
-        <small>{site.role}</small>
-      </span>
+    <a class="brand" href="/" aria-label={clinic.full}>
+      <Image src={lockup} alt={clinic.full} widths={[260, 520]} sizes="200px" loading="eager" />
     </a>
 
     <nav class="nav" id="nav" aria-label="فهرست اصلی">
-      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
-      <a class="nav-cta" href="#contact">رزرو وقت</a>
+      {
+        nav.map((item) => (
+          <a href={item.href} class={isActive(item.href) ? 'is-active' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+      <a class="nav-cta" href="/contact">رزرو وقت</a>
     </nav>
 
     <button
