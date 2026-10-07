@@ -1,0 +1,63 @@
+---
+/* Site behaviour, loaded by the layout so every page gets it. */
+---
+
+<script>
+  /* sticky header */
+  const header = document.querySelector<HTMLElement>('#siteHeader');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-stuck', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  /* mobile nav */
+  const nav = document.querySelector<HTMLElement>('#nav');
+  const toggle = document.querySelector<HTMLButtonElement>('#navToggle');
+  if (nav && toggle) {
+    const closeNav = () => {
+      nav.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'باز کردن فهرست');
+    };
+    toggle.addEventListener('click', () => {
+      const open = nav.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'بستن فهرست' : 'باز کردن فهرست');
+    });
+    nav.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeNav));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeNav();
+    });
+  }
+
+  /* reveal on scroll */
+  const items = Array.from(document.querySelectorAll<HTMLElement>('.reveal'));
+  const showAll = () => items.forEach((el) => el.classList.add('is-in'));
+
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          el.style.transitionDelay = el.dataset.delay ?? '0ms';
+          el.classList.add('is-in');
+          io.unobserve(el);
+        });
+      },
+      { rootMargin: '0px 0px -10% 0px', threshold: 0.08 }
+    );
+
+    items.forEach((el) => {
+      const siblings = el.parentElement
+        ? Array.from(el.parentElement.querySelectorAll<HTMLElement>('.reveal'))
+        : [];
+      const index = siblings.indexOf(el);
+      el.dataset.delay = `${index > 0 ? Math.min(index, 4) * 70 : 0}ms`;
+      io.observe(el);
+    });
+  } else {
+    showAll();
+  }
+</script>

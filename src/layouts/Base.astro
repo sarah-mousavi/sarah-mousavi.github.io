@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import SiteScript from '../components/SiteScript.astro';
 import { clinic } from '../data/clinic';
 
 interface Props {
@@ -60,6 +61,15 @@ const jsonLd = {
 
     <script is:inline>
       document.documentElement.classList.add('js');
+      /* If the behaviour script fails to load, reveal everything rather than
+         leaving the page blank. */
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          document.querySelectorAll('.reveal:not(.is-in)').forEach(function (el) {
+            el.classList.add('is-in');
+          });
+        }, 1200);
+      });
     </script>
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
@@ -68,5 +78,6 @@ const jsonLd = {
   <body>
     <a class="skip-link" href="#main">رفتن به محتوای اصلی</a>
     <slot />
+    <SiteScript />
   </body>
 </html>
