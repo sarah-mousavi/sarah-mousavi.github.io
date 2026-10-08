@@ -33,6 +33,11 @@ export const nav = [
   { href: '/contact', label: 'تماس' },
 ];
 
+export const accountNav = [
+  { href: '/account', label: 'حساب من' },
+  { href: '/login', label: 'ورود مراجعان' },
+];
+
 /* ── خدمات ──────────────────────────────────────────────────────── */
 
 export const services = [

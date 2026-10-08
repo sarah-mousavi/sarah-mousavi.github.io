@@ -1,0 +1,155 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHead from '../components/PageHead.astro';
+import { clinic, services } from '../data/clinic';
+---
+
+<Base title={`رزرو وقت ارزیابی | ${clinic.name}`} description="فرم درخواست وقت ارزیابی در کلینیک دل‌آسا. پذیرش برای هماهنگی زمان با شما تماس می‌گیرد.">
+  <Header />
+
+  <main id="main">
+    <PageHead
+      eyebrow="رزرو وقت"
+      title="درخواست وقت ارزیابی"
+      lead="فرم را پر کنید تا پذیرش برای هماهنگی زمان جلسهٔ ارزیابی با شما تماس بگیرد. اگر عجله دارید، واتس‌اپ سریع‌تر است."
+    />
+
+    <section class="section section-top-flush">
+      <div class="wrap narrow">
+        <form class="booking-form" id="bookingForm" method="post" action="/api/booking" novalidate>
+          <div class="field">
+            <label for="name">نام و نام خانوادگی <span aria-hidden="true">*</span></label>
+            <input id="name" name="name" type="text" autocomplete="name" required />
+            <p class="error" data-for="name"></p>
+          </div>
+
+          <div class="field">
+            <label for="phone">شمارهٔ موبایل <span aria-hidden="true">*</span></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" dir="ltr" placeholder="09xxxxxxxxx" required />
+            <p class="error" data-for="phone"></p>
+          </div>
+
+          <div class="field">
+            <label for="service">چه خدمتی مدنظرتان است؟</label>
+            <select id="service" name="service">
+              <option value="unsure">هنوز مطمئن نیستم</option>
+              {services.map((s) => <option value={s.slug}>{s.title}</option>)}
+            </select>
+            <p class="error" data-for="service"></p>
+          </div>
+
+          <div class="field">
+            <label for="mode">نحوهٔ برگزاری</label>
+            <select id="mode" name="mode">
+              <option value="in-person">حضوری (تهران)</option>
+              <option value="online">آنلاین</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="education">تحصیلات</label>
+            <input id="education" name="education" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="occupation">شغل</label>
+            <input id="occupation" name="occupation" type="text" />
+          </div>
+
+          <div class="field">
+            <label for="preferredDays">روزهای مناسب</label>
+            <input id="preferredDays" name="preferredDays" type="text" placeholder="مثلاً شنبه و دوشنبه" />
+          </div>
+
+          <div class="field">
+            <label for="preferredTime">ساعت مناسب</label>
+            <input id="preferredTime" name="preferredTime" type="text" placeholder="مثلاً عصرها بعد از ۱۷" />
+          </div>
+
+          <div class="field field-full">
+            <label for="message">توضیح کوتاه (اختیاری)</label>
+            <textarea id="message" name="message" rows="4" placeholder="در چند خط بنویسید چه چیزی شما را به اینجا رسانده است."></textarea>
+          </div>
+
+          <div class="hp" aria-hidden="true">
+            <label for="website">این فیلد را خالی بگذارید</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <button class="btn btn-primary" type="submit">ارسال درخواست</button>
+          <p class="form-note">
+            اطلاعات شما محرمانه است و فقط برای تشکیل پرونده و هماهنگی جلسه استفاده می‌شود.
+            ساعت کار پذیرش: {clinic.hours}.
+          </p>
+          <p class="form-status" id="formStatus" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#bookingForm');
+  const status = document.querySelector<HTMLElement>('#formStatus');
+
+  if (form && status) {
+    const setError = (name: string, msg: string) => {
+      const field = form.querySelector<HTMLElement>(`[name="${name}"]`)?.closest('.field');
+      field?.classList.toggle('has-error', Boolean(msg));
+      const box = form.querySelector<HTMLElement>(`.error[data-for="${name}"]`);
+      if (box) box.textContent = msg;
+    };
+    const clearErrors = () =>
+      form.querySelectorAll<HTMLElement>('.error').forEach((el) => {
+        el.textContent = '';
+        el.closest('.field')?.classList.remove('has-error');
+      });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      clearErrors();
+      status.textContent = '';
+      status.className = 'form-status';
+
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+      button.disabled = true;
+      button.textContent = 'در حال ارسال…';
+
+      try {
+        const res = await fetch('/api/booking', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form) as any)),
+        });
+        const data = await res.json();
+
+        if (res.ok && data.ok) {
+          form.reset();
+          status.className = 'form-status is-ok';
+          status.textContent =
+            'درخواست شما ثبت شد. پذیرش دل‌آسا برای هماهنگی زمان جلسهٔ ارزیابی با شما تماس می‌گیرد.';
+        } else {
+          Object.entries(data.errors ?? {}).forEach(([k, v]) => setError(k, String(v)));
+          status.className = 'form-status is-bad';
+          status.textContent = 'لطفاً خطاهای مشخص‌شده را برطرف کنید.';
+          form.querySelector<HTMLElement>('.field.has-error input')?.focus();
+        }
+      } catch {
+        status.className = 'form-status is-bad';
+        status.textContent =
+          'ارسال ممکن نشد. لطفاً دوباره تلاش کنید یا از واتس‌اپ استفاده کنید.';
+      } finally {
+        button.disabled = false;
+        button.textContent = 'ارسال درخواست';
+      }
+    });
+
+    form.querySelectorAll<HTMLInputElement>('input, textarea, select').forEach((el) =>
+      el.addEventListener('input', () => setError(el.name, ''))
+    );
+  }
+</script>

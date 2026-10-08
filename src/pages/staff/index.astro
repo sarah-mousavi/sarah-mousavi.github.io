@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import { desc } from 'drizzle-orm';
+import { db, schema } from '../../server/db';
+import { displayPhone } from '../../server/phone';
+import { clinic, services } from '../../data/clinic';
+
+export const prerender = false;
+
+const filter = Astro.url.searchParams.get('status') ?? 'open';
+const all = await db.query.bookingRequests.findMany({
+  orderBy: desc(schema.bookingRequests.createdAt),
+  limit: 200,
+});
+const rows = filter === 'all' ? all : all.filter((r) => (filter === 'open' ? r.status !== 'closed' : r.status === filter));
+
+const counts = {
+  open: all.filter((r) => r.status !== 'closed').length,
+  new: all.filter((r) => r.status === 'new').length,
+  all: all.length,
+};
+
+const serviceLabel = (slug: string) => services.find((s) => s.slug === slug)?.title ?? 'نامشخص';
+const fa = new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium', timeStyle: 'short' });
+const STATUSES = [
+  ['new', 'جدید'],
+  ['contacted', 'تماس گرفته شد'],
+  ['scheduled', 'وقت تعیین شد'],
+  ['closed', 'بسته'],
+];
+---
+
+<Base title={`پذیرش | ${clinic.name}`} noindex={true}>
+  <Header />
+
+  <main id="main">
+    <section class="page-head">
+      <div class="wrap">
+        <p class="eyebrow">پذیرش</p>
+        <h1>درخواست‌های رزرو</h1>
+        <nav class="staff-filters">
+          <a href="/staff?status=open" class={filter === 'open' ? 'is-active' : undefined}>باز ({counts.open.toLocaleString('fa-IR')})</a>
+          <a href="/staff?status=new" class={filter === 'new' ? 'is-active' : undefined}>جدید ({counts.new.toLocaleString('fa-IR')})</a>
+          <a href="/staff?status=all" class={filter === 'all' ? 'is-active' : undefined}>همه ({counts.all.toLocaleString('fa-IR')})</a>
+        </nav>
+      </div>
+    </section>
+
+    <section class="section section-top-flush">
+      <div class="wrap">
+        {
+          rows.length === 0 ? (
+            <p class="note">درخواستی در این دسته نیست.</p>
+          ) : (
+            <div class="staff-table-wrap">
+              <table class="staff-table">
+                <thead>
+                  <tr>
+                    <th>زمان ثبت</th><th>نام</th><th>تماس</th><th>خدمت</th>
+                    <th>نحوه</th><th>زمان پیشنهادی</th><th>توضیح</th><th>وضعیت</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((r) => (
+                    <tr>
+                      <td class="nowrap">{fa.format(r.createdAt)}</td>
+                      <td>{r.name}</td>
+                      <td class="nowrap"><a href={`tel:${r.phone}`} dir="ltr">{displayPhone(r.phone)}</a></td>
+                      <td>{serviceLabel(r.service)}</td>
+                      <td>{r.mode === 'online' ? 'آنلاین' : 'حضوری'}</td>
+                      <td>{[r.preferredDays, r.preferredTime].filter(Boolean).join(' — ') || '—'}</td>
+                      <td class="staff-msg">{r.message ?? '—'}</td>
+                      <td>
+                        <form method="post" action="/api/staff/booking-status" class="status-form">
+                          <input type="hidden" name="id" value={r.id} />
+                          <select name="status" onchange="this.form.submit()">
+                            {STATUSES.map(([v, l]) => (
+                              <option value={v} selected={r.status === v}>{l}</option>
+                            ))}
+                          </select>
+                        </form>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        }
+      </div>
+    </section>
+  </main>
+</Base>

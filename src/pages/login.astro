@@ -1,0 +1,120 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageHead from '../components/PageHead.astro';
+import { clinic } from '../data/clinic';
+
+export const prerender = false;
+
+if (Astro.locals.user) return Astro.redirect('/account', 302);
+const next = Astro.url.searchParams.get('next') ?? '/account';
+---
+
+<Base title={`ورود | ${clinic.name}`} noindex={true}>
+  <Header />
+
+  <main id="main">
+    <PageHead
+      eyebrow="ورود مراجعان"
+      title="ورود با شمارهٔ موبایل"
+      lead="شمارهٔ موبایلی را وارد کنید که با آن در کلینیک پرونده دارید. یک کد پنج‌رقمی برایتان پیامک می‌شود."
+    />
+
+    <section class="section section-top-flush">
+      <div class="wrap narrow">
+        <form class="booking-form auth-form" id="loginForm" data-next={next} novalidate>
+          <div class="field field-full" id="phoneStep">
+            <label for="phone">شمارهٔ موبایل</label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" dir="ltr" placeholder="09xxxxxxxxx" required />
+            <p class="error" data-for="phone"></p>
+          </div>
+
+          <div class="field field-full" id="codeStep" hidden>
+            <label for="code">کد پنج‌رقمی</label>
+            <input id="code" name="code" type="text" inputmode="numeric" dir="ltr" maxlength="5" autocomplete="one-time-code" />
+            <p class="error" data-for="code"></p>
+            <button class="linklike" type="button" id="changePhone">تغییر شماره</button>
+          </div>
+
+          <button class="btn btn-primary" type="submit" id="submitBtn">دریافت کد</button>
+          <p class="form-status" id="status" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#loginForm');
+  if (form) {
+    const phoneStep = form.querySelector<HTMLElement>('#phoneStep')!;
+    const codeStep = form.querySelector<HTMLElement>('#codeStep')!;
+    const phone = form.querySelector<HTMLInputElement>('#phone')!;
+    const code = form.querySelector<HTMLInputElement>('#code')!;
+    const button = form.querySelector<HTMLButtonElement>('#submitBtn')!;
+    const status = form.querySelector<HTMLElement>('#status')!;
+    let stage: 'phone' | 'code' = 'phone';
+
+    const show = (msg: string, ok = false) => {
+      status.className = `form-status ${ok ? 'is-ok' : 'is-bad'}`;
+      status.textContent = msg;
+    };
+    const setError = (name: string, msg: string) => {
+      const box = form.querySelector<HTMLElement>(`.error[data-for="${name}"]`);
+      if (box) box.textContent = msg;
+    };
+
+    form.querySelector('#changePhone')!.addEventListener('click', () => {
+      stage = 'phone';
+      codeStep.hidden = true;
+      phoneStep.hidden = false;
+      button.textContent = 'دریافت کد';
+      status.textContent = '';
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      setError('phone', '');
+      setError('code', '');
+      status.textContent = '';
+      button.disabled = true;
+
+      try {
+        if (stage === 'phone') {
+          const res = await fetch('/api/auth/request-code', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ phone: phone.value }),
+          });
+          const data = await res.json();
+          if (data.ok) {
+            stage = 'code';
+            phoneStep.hidden = true;
+            codeStep.hidden = false;
+            button.textContent = 'ورود';
+            code.focus();
+            show('کد برایتان پیامک شد.', true);
+          } else {
+            setError('phone', data.error ?? 'خطا');
+          }
+        } else {
+          const res = await fetch('/api/auth/verify', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ phone: phone.value, code: code.value }),
+          });
+          const data = await res.json();
+          if (data.ok) window.location.href = form.dataset.next || '/account';
+          else setError('code', data.error ?? 'کد درست نیست.');
+        }
+      } catch {
+        show('ارتباط برقرار نشد. دوباره تلاش کنید.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>

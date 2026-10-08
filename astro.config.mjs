@@ -1,11 +1,16 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 
-// GitHub Pages: for a user/org site (sarah-mousavi.github.io) `base` stays '/'.
-// For a project site (…github.io/sara) set base: '/sara'.
+/* One switch decides where this deploys. Nothing else in the codebase knows
+   or cares — moving to a VPS is `DEPLOY_TARGET=node` plus a DATABASE_URL. */
+const target = process.env.DEPLOY_TARGET ?? 'node';
+
 export default defineConfig({
-  site: 'https://sarah-mousavi.github.io',
-  base: '/',
+  site: process.env.SITE_URL ?? 'https://sarah-mousavi.github.io',
+  output: 'static',
+  adapter: target === 'vercel' ? vercel() : node({ mode: 'standalone' }),
   trailingSlash: 'ignore',
   build: { inlineStylesheets: 'auto' },
 });

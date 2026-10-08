@@ -1,0 +1,106 @@
+---
+import { GREETING } from '../server/chat';
+import { clinic } from '../data/clinic';
+---
+
+<div class="chat" id="chat">
+  <button class="chat-launch" id="chatLaunch" aria-expanded="false" aria-controls="chatPanel">
+    <span aria-hidden="true">؟</span> راهنمای پذیرش
+  </button>
+
+  <section class="chat-panel" id="chatPanel" hidden aria-label="گفت‌وگو با راهنمای پذیرش">
+    <header>
+      <b>راهنمای پذیرش دل‌آسا</b>
+      <button class="chat-close" id="chatClose" aria-label="بستن">×</button>
+    </header>
+
+    <div class="chat-log" id="chatLog" role="log" aria-live="polite">
+      <p class="chat-msg is-bot">{GREETING}</p>
+    </div>
+
+    <form class="chat-form" id="chatForm">
+      <label class="sr-only" for="chatInput">پیام شما</label>
+      <input id="chatInput" name="message" autocomplete="off" placeholder="سؤالت را بنویس…" required />
+      <button type="submit" aria-label="ارسال">←</button>
+    </form>
+
+    <p class="chat-foot">
+      این گفت‌وگو درمان نیست. در وضعیت اورژانسی: ۱۲۳ یا ۱۱۵ ·
+      <a href={`tel:${clinic.phone.tel}`}>تماس با پذیرش</a>
+    </p>
+  </section>
+</div>
+
+<script>
+  const launch = document.querySelector<HTMLButtonElement>('#chatLaunch');
+  const panel = document.querySelector<HTMLElement>('#chatPanel');
+  const form = document.querySelector<HTMLFormElement>('#chatForm');
+  const log = document.querySelector<HTMLElement>('#chatLog');
+  const input = document.querySelector<HTMLInputElement>('#chatInput');
+  let conversationId: string | undefined;
+
+  if (launch && panel && form && log && input) {
+    const toggle = (open: boolean) => {
+      panel.hidden = !open;
+      launch.setAttribute('aria-expanded', String(open));
+      if (open) input.focus();
+    };
+    launch.addEventListener("click", () => toggle(Boolean(panel.hidden)));
+    document.querySelector('#chatClose')!.addEventListener('click', () => toggle(false));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) toggle(false);
+    });
+
+    /* links the bot returns as /path are turned into real links */
+    const render = (text: string, cls: string) => {
+      const p = document.createElement('p');
+      p.className = `chat-msg ${cls}`;
+      text.split('\n').forEach((line, i) => {
+        if (i) p.appendChild(document.createElement('br'));
+        const m = line.match(/^(.*?)(\/[a-z/-]+)(.*)$/);
+        if (m) {
+          p.appendChild(document.createTextNode(m[1]));
+          const a = document.createElement('a');
+          a.href = m[2];
+          a.textContent = m[2];
+          p.appendChild(a);
+          p.appendChild(document.createTextNode(m[3]));
+        } else {
+          p.appendChild(document.createTextNode(line));
+        }
+      });
+      log.appendChild(p);
+      log.scrollTop = log.scrollHeight;
+      return p;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      render(text, 'is-user');
+      input.value = '';
+      const pending = render('…', 'is-bot is-pending');
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ message: text, conversationId }),
+        });
+        const data = await res.json();
+        pending.remove();
+        if (data.ok) {
+          conversationId = data.conversationId;
+          const el = render(data.reply, 'is-bot');
+          if (data.crisis) el.classList.add('is-crisis');
+        } else {
+          render('پیام ارسال نشد. دوباره تلاش کن.', 'is-bot');
+        }
+      } catch {
+        pending.remove();
+        render('ارتباط برقرار نشد. لطفاً با پذیرش تماس بگیر.', 'is-bot');
+      }
+    });
+  }
+</script>

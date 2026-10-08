@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { desc, eq } from 'drizzle-orm';
+import { db, schema } from '../server/db';
+import { tierFor, tierLabel, nextTier, meets, TIERS, type Tier } from '../server/tiers';
+import { displayPhone } from '../server/phone';
+import { clinic, services } from '../data/clinic';
+
+export const prerender = false;
+
+const user = Astro.locals.user!;
+const tier = tierFor(user.sessionsCompleted);
+const next = nextTier(user.sessionsCompleted);
+
+const [requests, library] = await Promise.all([
+  db.query.bookingRequests.findMany({
+    where: eq(schema.bookingRequests.phone, user.phone),
+    orderBy: desc(schema.bookingRequests.createdAt),
+    limit: 10,
+  }),
+  db.query.libraryItems.findMany({ where: eq(schema.libraryItems.published, true) }),
+]);
+
+const statusLabel: Record<string, string> = {
+  new: 'در انتظار تماس پذیرش',
+  contacted: 'پذیرش تماس گرفته است',
+  scheduled: 'وقت تعیین شده',
+  closed: 'بسته‌شده',
+};
+const serviceLabel = (slug: string) =>
+  services.find((s) => s.slug === slug)?.title ?? 'هنوز مشخص نشده';
+const fa = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Base title={`حساب من | ${clinic.name}`} noindex={true}>
+  <Header />
+
+  <main id="main">
+    <section class="page-head">
+      <div class="wrap">
+        <p class="eyebrow">حساب من</p>
+        <h1>{user.name ?? 'خوش آمدید'}</h1>
+        <p class="account-sub">
+          <span dir="ltr">{displayPhone(user.phone)}</span>
+          <span aria-hidden="true">·</span>
+          <span class={`tier-chip tier-${tier}`}>{tierLabel(tier)}</span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-top-flush">
+      <div class="wrap account-grid">
+        <div>
+          <h2 class="account-h">درخواست‌های من</h2>
+          {
+            requests.length === 0 ? (
+              <p class="note">هنوز درخواستی ثبت نکرده‌اید. <a href="/booking">رزرو وقت ارزیابی</a></p>
+            ) : (
+              <ul class="request-list">
+                {requests.map((r) => (
+                  <li>
+                    <div>
+                      <b>{serviceLabel(r.service)}</b>
+                      <span>{r.mode === 'online' ? 'آنلاین' : 'حضوری'} · {fa.format(r.createdAt)}</span>
+                    </div>
+                    <span class={`status status-${r.status}`}>{statusLabel[r.status] ?? r.status}</span>
+                  </li>
+                ))}
+              </ul>
+            )
+          }
+
+          <h2 class="account-h">کتابخانهٔ مراجعان</h2>
+          {
+            library.length === 0 ? (
+              <p class="note">محتوای آموزشی به‌زودی اینجا اضافه می‌شود.</p>
+            ) : (
+              <ul class="library-list">
+                {library.map((item) => {
+                  const open = meets(tier, item.minTier as Tier);
+                  return (
+                    <li class={open ? undefined : 'is-locked'}>
+                      <div>
+                        <b>{item.title}</b>
+                        <span>{item.summary}</span>
+                      </div>
+                      {open ? (
+                        <a class="btn btn-ghost btn-sm" href={item.url ?? '#'}>باز کردن</a>
+                      ) : (
+                        <span class="lock">از سطح {tierLabel(item.minTier as Tier)}</span>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            )
+          }
+        </div>
+
+        <aside class="account-aside">
+          <h2 class="account-h">سطح عضویت</h2>
+          <p class="tier-count">{user.sessionsCompleted.toLocaleString('fa-IR')} جلسهٔ انجام‌شده</p>
+          {
+            next ? (
+              <p class="note">
+                {next.remaining.toLocaleString('fa-IR')} جلسه تا سطح {next.label}.
+              </p>
+            ) : (
+              <p class="note">بالاترین سطح عضویت.</p>
+            )
+          }
+
+          <ul class="tier-perks">
+            {TIERS.map((t) => (
+              <li class={meets(tier, t.id) ? 'is-on' : undefined}>
+                <b>{t.label}</b>
+                <ul>{t.perks.map((p) => <li>{p}</li>)}</ul>
+              </li>
+            ))}
+          </ul>
+
+          <p class="note tier-note">
+            سطح عضویت بر اساس تعداد جلسات انجام‌شده است، نه مبلغ پرداختی.
+          </p>
+
+          <form method="post" action="/api/auth/logout">
+            <button class="btn btn-ghost btn-sm" type="submit">خروج از حساب</button>
+          </form>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

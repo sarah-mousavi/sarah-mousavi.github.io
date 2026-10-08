@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import SiteScript from '../components/SiteScript.astro';
+import ChatWidget from '../components/ChatWidget.astro';
 import { clinic } from '../data/clinic';
 
 interface Props {
@@ -80,6 +81,7 @@ const jsonLd = {
   <body>
     <a class="skip-link" href="#main">رفتن به محتوای اصلی</a>
     <slot />
+    <ChatWidget />
     <SiteScript />
   </body>
 </html>
