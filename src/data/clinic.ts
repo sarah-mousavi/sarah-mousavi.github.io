@@ -160,3 +160,31 @@ export const team = [
     featured: true,
   },
 ];
+
+/* ── routing by the visitor's own words, not by service name ────── */
+
+export const complaints = [
+  { text: 'نمی‌دانم اصلاً مشکلم چیست', to: 'assessment' },
+  { text: 'حمله‌های اضطرابی و تپش قلب دارم', to: 'individual' },
+  { text: 'بی‌انگیزه‌ام و از زندگی‌ام عقب افتاده‌ام', to: 'individual' },
+  { text: 'زود عصبانی می‌شوم و بعد پشیمان', to: 'individual' },
+  { text: 'عزیزی را از دست داده‌ام', to: 'individual' },
+  { text: 'همسرم موقع دعوا سکوت می‌کند و می‌رود', to: 'couples' },
+  { text: 'دعواهایمان تکراری شده و تمامی ندارد', to: 'couples' },
+  { text: 'نمی‌دانم این رابطه را ادامه بدهم یا نه', to: 'couples' },
+  { text: 'اعتمادمان شکسته است', to: 'couples' },
+  { text: 'میل جنسی‌مان با هم فرق کرده', to: 'sex-therapy' },
+  { text: 'رابطهٔ جنسی برایم دردناک یا پر از اضطراب است', to: 'sex-therapy' },
+  { text: 'فرزندم از مدرسه یا جدایی می‌ترسد', to: 'child-adolescent' },
+  { text: 'رفتار نوجوانم را نمی‌فهمم', to: 'child-adolescent' },
+  { text: 'می‌خواهم شخصیت یا توانایی‌هایم را بسنجم', to: 'tests' },
+];
+
+/* ── the facts a visitor needs before deciding ──────────────────── */
+
+export const facts = [
+  { label: 'ساعت کار', value: 'هر روز، ۹ تا ۲۱' },
+  { label: 'مدت جلسه', value: '۴۵ تا ۶۰ دقیقه' },
+  { label: 'شروع کار', value: 'جلسهٔ ارزیابی' },
+  { label: 'نحوهٔ برگزاری', value: 'حضوری و آنلاین' },
+];

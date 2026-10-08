@@ -1,0 +1,212 @@
+---
+/* An alternative homepage, designed as a clinic from zero rather than as
+   a personal practice with clinic content poured in. Preview only. */
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
+import { clinic, services, process, team, complaints, facts } from '../data/clinic';
+
+const waHref = `https://wa.me/${clinic.phone.whatsapp}?text=${encodeURIComponent(clinic.whatsappText)}`;
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const fa = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: 'long', day: 'numeric' });
+---
+
+<Base title={`دل‌آسا — نسخهٔ جایگزین`} noindex={true}>
+  <Header />
+
+  <main id="main" class="v2">
+    <!-- 1 · orientation: what, where, when, and the one action -->
+    <section class="v2-hero">
+      <div class="wrap v2-hero-inner">
+        <div class="reveal">
+          <h1>کلینیک روان‌درمانی و سلامت روان، در {clinic.city}.</h1>
+          <p class="lead">
+            کار را با یک جلسهٔ ارزیابی شروع می‌کنیم تا روشن شود موضوع دقیقاً چیست — بعد شما را به
+            درمانگری می‌سپاریم که تخصصش با همان موضوع می‌خواند.
+          </p>
+          <div class="v2-actions">
+            <a class="btn btn-primary" href="/contact">رزرو وقت ارزیابی</a>
+            <a class="btn btn-ghost" href="#router">کدام خدمت مناسب من است؟</a>
+          </div>
+        </div>
+
+        <dl class="v2-facts reveal">
+          {facts.map((f) => (<div><dt>{f.label}</dt><dd>{f.value}</dd></div>))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- 2 · the router: the visitor's own words, not our service names -->
+    <section class="section v2-router" id="router">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">از کجا شروع کنم</p>
+          <h2>با چه چیزی درگیرید؟</h2>
+          <p class="lead">جمله‌ای را انتخاب کنید که به وضعیت شما نزدیک‌تر است.</p>
+        </div>
+
+        <ul class="complaints">
+          {
+            complaints.map((c) => (
+              <li class="reveal">
+                <a href={`/services/${c.to}`}>
+                  <span>{c.text}</span>
+                  <i aria-hidden="true">←</i>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <p class="v2-crisis reveal">
+          اگر همین حالا در خطر آسیب به خود هستید، منتظر نوبت نمانید — اورژانس اجتماعی ۱۲۳ یا اورژانس ۱۱۵.
+        </p>
+      </div>
+    </section>
+
+    <!-- 3 · the process, as the reason to choose this clinic -->
+    <section class="section section-soft">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">چرا دل‌آسا</p>
+          <h2>هیچ‌کس بدون ارزیابی وارد درمان نمی‌شود.</h2>
+          <p class="lead">
+            بخش بزرگی از شکست‌های درمان از آنجا می‌آید که آدم با مسئلهٔ اشتباه پیش درمانگرِ اشتباه
+            می‌نشیند. مسیر ما برای همین پنج مرحله دارد.
+          </p>
+        </div>
+
+        <ol class="v2-steps">
+          {
+            process.map((s) => (
+              <li class="reveal">
+                <span>{s.num}</span>
+                <b>{s.title}</b>
+                <p>{s.body}</p>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- 4 · the team is the product -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">تیم درمان</p>
+          <h2>چه کسی شما را می‌بیند</h2>
+        </div>
+
+        <ul class="v2-team">
+          {
+            team.map((m) => (
+              <li class="reveal">
+                <a href={`/team/${m.slug}`}>
+                  <span class="v2-face" aria-hidden="true"></span>
+                  <b>{m.name}</b>
+                  <em>{m.role}</em>
+                  <p>{m.approach}</p>
+                </a>
+              </li>
+            ))
+          }
+          <li class="reveal v2-team-slot" aria-hidden="true">
+            <span class="v2-face"></span>
+            <b>سایر همکاران</b>
+            <em>به‌زودی</em>
+            <p>عکس، رویکرد، سابقه و حوزهٔ تخصصی هر همکار اینجا اضافه می‌شود.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 5 · services, compact and scannable -->
+    <section class="section section-sage">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">خدمات</p>
+          <h2>آنچه در دل‌آسا انجام می‌شود</h2>
+        </div>
+
+        <ul class="v2-services">
+          {
+            services.map((s) => (
+              <li class="reveal">
+                <a href={`/services/${s.slug}`}>
+                  <b>{s.title}</b>
+                  <p>{s.short}</p>
+                  <i aria-hidden="true">←</i>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <!-- 6 · the practical facts people hunt for -->
+    <section class="section section-soft">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">اطلاعات عملی</p>
+          <h2>پیش از تماس، این‌ها را بدانید</h2>
+        </div>
+
+        <div class="v2-practical">
+          <div class="reveal"><h3>نشانی</h3><p>{clinic.address}</p></div>
+          <div class="reveal"><h3>ساعت کار</h3><p>{clinic.hours}</p></div>
+          <div class="reveal"><h3>هزینهٔ جلسات</h3><p>برای اطلاع از تعرفهٔ ارزیابی و جلسات، با پذیرش تماس بگیرید.</p></div>
+          <div class="reveal"><h3>حضوری یا آنلاین</h3><p>هر دو. انتخاب بین آن‌ها در جلسهٔ ارزیابی با هم مشخص می‌شود.</p></div>
+          <div class="reveal"><h3>محرمانگی</h3><p>آنچه در اتاق گفته می‌شود در همان اتاق می‌ماند؛ تنها استثنا جایی‌ست که جانِ کسی در خطر باشد.</p></div>
+          <div class="reveal"><h3>اطلاعاتی که می‌گیریم</h3><p>نام و نام خانوادگی، شمارهٔ تماس، تحصیلات و شغل — فقط برای تشکیل پرونده.</p></div>
+        </div>
+      </div>
+    </section>
+
+    {
+      posts.length > 0 && (
+        <section class="section">
+          <div class="wrap">
+            <div class="section-head reveal">
+              <p class="eyebrow">مقالات</p>
+              <h2>روان‌شناسی، به زبان زندگی</h2>
+            </div>
+            <ul class="v2-posts">
+              {posts.map((post) => (
+                <li class="reveal">
+                  <a href={`/blog/${post.id}`}>
+                    <time datetime={post.data.date.toISOString()}>{fa.format(post.data.date)}</time>
+                    <b>{post.data.title}</b>
+                    <p>{post.data.description}</p>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    }
+
+    <!-- 7 · close -->
+    <section class="booking-band">
+      <div class="wrap">
+        <div class="booking-head reveal">
+          <h2>برای شروع، یک گفت‌وگو کافی است.</h2>
+          <p>پذیرش دل‌آسا {clinic.hours} پاسخگوست.</p>
+        </div>
+        <div class="booking-actions reveal">
+          <a class="btn btn-wa" href={waHref} target="_blank" rel="noopener">رزرو وقت در واتس‌اپ</a>
+          <a class="btn btn-tel" href={`tel:${clinic.phone.tel}`}><span dir="ltr">{clinic.phone.display}</span></a>
+          <a class="btn btn-tel" href={clinic.telegram} target="_blank" rel="noopener">تلگرام</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+  <div class="sticky-cta"><a class="btn btn-primary" href="/contact">رزرو وقت</a></div>
+</Base>
