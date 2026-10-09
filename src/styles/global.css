@@ -48,6 +48,8 @@
 /* ── base ───────────────────────────────────────────────────────── */
 
 * { box-sizing: border-box; }
+/* the hidden attribute must beat any display rule set on the element itself */
+[hidden] { display: none !important; }
 
 html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 
